@@ -1,0 +1,9 @@
+{
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true
+  },
+  "tasks": {
+    "build": "deno run -A https://deno.land/x/cheetah@v1.2.0/build.ts"
+  }
+}
