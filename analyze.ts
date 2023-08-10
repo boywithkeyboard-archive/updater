@@ -49,7 +49,11 @@ export async function analyze(
 }
 
 async function analyzeFile(path: string) {
-  if (path.endsWith('deno.lock')) {
+  if (
+    path.endsWith('deno.lock') ||
+    path.includes('.github/workflows/') &&
+      (path.endsWith('.yml') || path.endsWith('.yaml'))
+  ) {
     return
   }
 
