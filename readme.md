@@ -14,7 +14,7 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
 
 - `--breaking` / `-b` : allow breaking updates (major releases)
 - `--unstable` / `-u` : allow unstable updates (prereleases)
-- `--changelog` / `-c` : create changelog (update_changelog.md)
+- `--changelog` / `-c` : create changelog (updates_changelog.md)
 
 ### Workflow
 
