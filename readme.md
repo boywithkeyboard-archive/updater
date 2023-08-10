@@ -26,6 +26,10 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -40,7 +44,7 @@ jobs:
 
       - name: Run update
         run: |
-          deno run -Ar https://deno.land/x/update/mod.ts -c
+          deno run -A mod.ts -c
           CHANGELOG=$(cat updates_changelog.md)
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG" >> $GITHUB_ENV
@@ -50,9 +54,6 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          assignees: '${{ inputs.assignees }}'
-          reviewers: '${{ inputs.reviewers }}'
-          token: '${{ secrets.token }}'
           title: 'refactor: update deps'
           author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
           committer: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
