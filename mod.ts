@@ -1,3 +1,4 @@
+// Copyright 2023 Samuel Kopp. All rights reserved. MIT license.
 import { parse } from 'https://deno.land/std@0.198.0/flags/mod.ts'
 import { analyze } from './analyze.ts'
 import { update } from './update.ts'

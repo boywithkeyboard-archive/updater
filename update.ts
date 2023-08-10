@@ -1,3 +1,4 @@
+// Copyright 2023 Samuel Kopp. All rights reserved. MIT license.
 import * as semver from 'https://deno.land/std@0.190.0/semver/mod.ts#pin'
 import {
   brightGreen,
