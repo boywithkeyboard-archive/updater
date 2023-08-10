@@ -39,7 +39,7 @@ jobs:
 
       - name: Run update
         run: |
-          deno run -Ar https://deno.land/x/update/mod.ts
+          deno run -Ar https://deno.land/x/update/mod.ts -c
           CHANGELOG=$(cat updates_changelog.md)
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG" >> $GITHUB_ENV
