@@ -19,7 +19,7 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
 ### Workflow
 
 ```yml
-name: check
+name: update
 
 on:
   schedule:
