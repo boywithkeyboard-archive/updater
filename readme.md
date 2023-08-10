@@ -24,6 +24,7 @@ name: update
 on:
   schedule:
     - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
