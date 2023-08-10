@@ -2,8 +2,9 @@
 
 ### CLI
 
-> **Note** The entry point can be either a directory or file. You can also
-> specify multiple files and/or directories.
+> **Note**\
+> The entry point can be either a directory or file. You can also specify
+> multiple files and/or directories.
 
 ```bash
 deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
