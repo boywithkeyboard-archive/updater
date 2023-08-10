@@ -50,9 +50,9 @@ export async function update({
           continue
         }
 
-        const { moduleName, version } = data
+        const { moduleName, version: currentVersion } = data
 
-        if (!semver.valid(version)) {
+        if (!semver.valid(currentVersion)) {
           continue
         }
 
@@ -66,19 +66,14 @@ export async function update({
           continue
         }
 
-        versions = versions.sort(semver.rcompare)
+        const nextVersion = getNextVersion({
+          currentVersion,
+          versions,
+          allowBreaking,
+          allowUnstable,
+        })
 
-        const difference = semver.difference(
-          version,
-          versions[0],
-        )
-
-        if (
-          version === versions[0] ||
-          difference === null || // same version
-          !allowBreaking && difference === 'major' || // breaking
-          !allowUnstable && difference === 'prerelease' // unstable
-        ) {
+        if (!nextVersion) {
           continue
         }
 
@@ -87,13 +82,13 @@ export async function update({
         ) {
           updates[registry.registryName as keyof typeof updates][moduleName]
             .push(
-              [version, versions[0]],
+              [currentVersion, nextVersion],
             )
         } else {
           updates[registry.registryName as keyof typeof updates][moduleName] = [
             [
-              version,
-              versions[0],
+              currentVersion,
+              nextVersion,
             ],
           ]
         }
@@ -102,7 +97,7 @@ export async function update({
           cache.set(registry.registryName + ':' + moduleName, versions)
         }
 
-        urls.push([url, url.replace(version, versions[0])])
+        urls.push([url, url.replace(currentVersion, nextVersion)])
       } catch (_err) {
         continue
       }
@@ -176,4 +171,37 @@ export async function update({
   }
 
   return updates
+}
+
+function getNextVersion(args: {
+  currentVersion: string
+  versions: string[]
+  allowBreaking: boolean
+  allowUnstable: boolean
+}) {
+  args.versions = args.versions.sort(semver.compare)
+
+  const latestVersion = args.versions[args.versions.length - 1]
+
+  const diff = semver.difference(args.currentVersion, latestVersion)
+
+  if (semver.gte(args.currentVersion, latestVersion)) {
+    return
+  }
+
+  if (latestVersion === args.currentVersion || diff === null) {
+    return
+  }
+
+  if (
+    (args.allowBreaking || args.allowUnstable) && diff === 'major' || // breaking
+    args.allowUnstable && diff.startsWith('pre') || // unstable
+    diff === 'minor' || diff === 'patch'
+  ) {
+    return latestVersion
+  }
+
+  args.versions.pop()
+
+  return getNextVersion(args)
 }
