@@ -43,7 +43,7 @@ export const jsdelivrdotnet: Registry = {
 
     const json = await res.json() as { repository: { url: string } }
 
-    return json.repository.url.slice(0, -4)
+    return json.repository.url.replace('.git', '').replace('git+', '')
   },
 
   parseUrl(url) {

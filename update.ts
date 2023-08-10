@@ -153,7 +153,7 @@ export async function update({
       }
 
       changelog += `  - ${
-        typeof repoUrl === 'string' && repoUrl.length > 0
+        repoUrl
           ? `[${name}](${repoUrl})`
           : name
       } × \`${from}\` → \`${to}\`${count > 1 ? ` (x${count})` : ''}\n`
