@@ -19,8 +19,12 @@ export const denodotland: Registry = {
   },
 
   async fetchRepositoryUrl(moduleName) {
+    if (moduleName === 'std') {
+      return 'https://github.com/denoland/deno_std'
+    }
+
     const res = await fetch(
-      `https://apiland.deno.dev/v2/modules/${moduleName}`,
+      `https://apiland.deno.dev/v2/metrics/modules/${moduleName}`,
     )
 
     if (!res.ok) {
@@ -38,10 +42,10 @@ export const denodotland: Registry = {
     url = url.replace('https://', '')
 
     return {
-      moduleName: url.startsWith('https://deno.land/std')
+      moduleName: url.startsWith('deno.land/std')
         ? 'std'
         : url.split('/')[2].split('@')[0],
-      version: url.startsWith('https://deno.land/std')
+      version: url.startsWith('deno.land/std')
         ? url.split('/')[1].split('@')[1]
         : url.split('/')[2].split('@')[1],
     }
