@@ -7,27 +7,27 @@ export type Files = {
 }[]
 
 export async function analyze(
-  ...path: string[]
+  ...paths: string[]
 ): Promise<Files> {
   const data: Files = []
 
-  for (const p of path) {
+  for (const path of paths) {
     try {
-      const { isFile, isDirectory } = await Deno.stat(p)
+      const { isFile, isDirectory } = await Deno.stat(path)
 
       if (isFile) {
-        const urls = await analyzeFile(p)
+        const urls = await analyzeFile(path)
 
         if (!urls) {
           continue
         }
 
         data.push({
-          filePath: p,
+          filePath: path,
           urls,
         })
       } else if (isDirectory) {
-        for await (const entry of walk(p)) {
+        for await (const entry of walk(path)) {
           const urls = await analyzeFile(entry.path)
 
           if (!urls) {

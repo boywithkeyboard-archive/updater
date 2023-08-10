@@ -5,7 +5,11 @@ import { update } from './update.ts'
 if (import.meta.main) {
   const args = parse(Deno.args)
 
-  const files = await analyze(args._[0] as string ?? Deno.cwd())
+  args._ = args._.filter((i) => typeof i === 'string')
+
+  const files = args._.length > 0
+    ? await analyze(...args._ as string[])
+    : await analyze(Deno.cwd())
 
   await update({
     files,
