@@ -82,8 +82,9 @@ async function analyzeFile(path: string) {
       filteredUrls.push(url)
     }
 
-    if (filteredUrls.length === 0)
+    if (filteredUrls.length === 0) {
       return
+    }
 
     return filteredUrls
   } catch (_err) {

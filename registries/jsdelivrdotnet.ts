@@ -48,7 +48,7 @@ export const jsdelivrdotnet: Registry = {
 
   parseUrl(url) {
     url = url.replace('https://', '')
-    
+
     if (url.startsWith('https://cdn.jsdelivr.net/gh/')) { // github repository
       return {
         moduleName: url.split('/')[2] + '/' + url.split('/')[3].split('@')[0],

@@ -30,7 +30,7 @@ export const esmdotsh: Registry = {
 
   parseUrl(url) {
     url = url.replace('https://', '')
-    
+
     let moduleName = url
       .split('/')[1]
       .split('@')[0]
