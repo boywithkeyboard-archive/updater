@@ -4,7 +4,7 @@ import {
   gray,
   strikethrough,
   white,
-} from 'https://deno.land/std@0.197.0/fmt/colors.ts'
+} from 'https://deno.land/std@0.198.0/fmt/colors.ts'
 import { Files } from './analyze.ts'
 import { registries } from './registries.ts'
 
@@ -29,7 +29,11 @@ export async function update({
     'cdn.jsdelivr.net': {},
   }
 
+  const cache = new Map<string, string[]>()
+
   for (const file of files) {
+    const urls: [string, string][] = []
+
     for (const url of file.urls) {
       try {
         if (url.endsWith('#pin')) {
@@ -52,7 +56,11 @@ export async function update({
           continue
         }
 
-        let versions = await registry.fetchReleases(moduleName) as string[]
+        let versions = cache.get(registry.registryName + ':' + moduleName)
+
+        if (!versions) {
+          versions = await registry.fetchReleases(moduleName) as string[]
+        }
 
         if (!versions) {
           continue
@@ -66,6 +74,7 @@ export async function update({
         )
 
         if (
+          version === versions[0] ||
           difference === null || // same version
           !allowBreaking && difference === 'major' || // breaking
           !allowUnstable && difference === 'prerelease' // unstable
@@ -88,15 +97,33 @@ export async function update({
             ],
           ]
         }
+
+        if (!cache.has(registry.registryName + ':' + moduleName)) {
+          cache.set(registry.registryName + ':' + moduleName, versions)
+        }
+
+        urls.push([url, url.replace(version, versions[0])])
       } catch (_err) {
         continue
       }
     }
+
+    let content = await Deno.readTextFile(file.filePath)
+
+    for (const [from, to] of urls) {
+      content = content.replaceAll(from, to)
+    }
+
+    await Deno.writeTextFile(file.filePath, content)
   }
 
   let changelog = ''
 
   for (const [registry, deps] of Object.entries(updates)) {
+    if (Object.keys(deps).length === 0) {
+      continue
+    }
+
     if (changelog === '') {
       changelog += `- **${registry}**\n\n`
     } else {
@@ -120,20 +147,32 @@ export async function update({
     }
 
     for (const { name, from, to, count } of arr) {
-      changelog += `  - ${name} × \`${from}\` → \`${to}\`${
-        count > 1 ? ` (x${count})` : ''
-      }\n`
+      let repoUrl
+
+      try {
+        const r = registries.filter((r) => registry === r.registryName)[0]
+
+        repoUrl = await r.fetchRepositoryUrl(name)
+      } catch (_err) {
+        //
+      }
+
+      changelog += `  - ${
+        typeof repoUrl === 'string' && repoUrl.length > 0
+          ? `[${name}](${repoUrl})`
+          : name
+      } × \`${from}\` → \`${to}\`${count > 1 ? ` (x${count})` : ''}\n`
 
       console.log(
         gray(
-          `${white(name)} × ${strikethrough(from)} → ${brightGreen(from)}`,
+          `${white(name)} × ${strikethrough(from)} → ${brightGreen(to)}`,
         ),
       )
     }
   }
 
   if (createChangelog) {
-    await Deno.writeTextFile('./update_changelog.md', changelog)
+    await Deno.writeTextFile('./updates_changelog.md', changelog)
   }
 
   return updates

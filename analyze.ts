@@ -1,4 +1,4 @@
-import { walk } from 'https://deno.land/std@0.197.0/fs/walk.ts'
+import { walk } from 'https://deno.land/std@0.198.0/fs/walk.ts'
 import { registries } from './registries.ts'
 
 export type Files = {
@@ -49,6 +49,10 @@ export async function analyze(
 }
 
 async function analyzeFile(path: string) {
+  if (path.endsWith('deno.lock')) {
+    return
+  }
+
   const urlRegex =
     /(?:(?:(?:[a-z]+:)?\/\/)|www\.)(?:\S+(?::\S*)?@)?(?:localhost|(?:(?:[a-z\u00a1-\uffff0-9][-_]*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#][^\s"]*)?/gi
 
