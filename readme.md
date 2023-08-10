@@ -16,6 +16,14 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
 - `--unstable` / `-u` : allow unstable updates (prereleases)
 - `--changelog` / `-c` : create changelog (updates_changelog.md)
 
+#### Labels:
+
+- ⚠️ **breaking** - This update might break your code.
+- 🚧 **unstable** - This is a prerelease and might therefore come with unwanted
+  issues.
+- 🤞 **early** - This module doesn't strictly adhere to semver yet, so this
+  version might break your code.
+
 ### Workflow
 
 ```yml

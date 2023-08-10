@@ -153,14 +153,16 @@ export async function update({
       }
 
       changelog += `  - ${
-        repoUrl
-          ? `[${name}](${repoUrl})`
-          : name
-      } × \`${from}\` → \`${to}\`${count > 1 ? ` (x${count})` : ''}\n`
+        repoUrl ? `[${name}](${repoUrl})` : name
+      } × \`${from}\` → \`${label(from, to)}\`${
+        count > 1 ? ` (x${count})` : ''
+      }\n`
 
       console.log(
         gray(
-          `${white(name)} × ${strikethrough(from)} → ${brightGreen(to)}`,
+          `${white(name)} × ${strikethrough(from)} → ${
+            brightGreen(label(from, to))
+          }`,
         ),
       )
     }
@@ -171,6 +173,23 @@ export async function update({
   }
 
   return updates
+}
+
+function label(currentVersion: string, nextVersion: string) {
+  const diff = semver.difference(currentVersion, nextVersion)
+  const version = semver.parse(nextVersion)
+
+  if (!version) {
+    return nextVersion
+  }
+
+  return diff?.startsWith('pre')
+    ? `🚧 ${nextVersion}`
+    : diff === 'major'
+    ? `⚠️ ${nextVersion}`
+    : version.major === 0
+    ? `🤞 ${nextVersion}`
+    : nextVersion
 }
 
 function getNextVersion(args: {
