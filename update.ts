@@ -114,11 +114,11 @@ export async function update({
 
     if (!readonly) {
       await Deno.writeTextFile(file.filePath, content)
-      
+
       const cmd = new Deno.Command('deno', {
         args: ['cache', '--reload', file.filePath],
         stdout: 'piped',
-        stderr: 'piped'
+        stderr: 'piped',
       })
 
       await cmd.output()
