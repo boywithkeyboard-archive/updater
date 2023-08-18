@@ -14,11 +14,13 @@ export async function update({
   allowUnstable = false,
   createChangelog = false,
   files,
+  readonly = false,
 }: {
   allowBreaking?: boolean
   allowUnstable?: boolean
   createChangelog?: boolean
   files: Files
+  readonly?: boolean
 }) {
   const updates: {
     'esm.sh': Record<string, [string, string][]>
@@ -110,7 +112,9 @@ export async function update({
       content = content.replaceAll(from, to)
     }
 
-    await Deno.writeTextFile(file.filePath, content)
+    if (!readonly) {
+      await Deno.writeTextFile(file.filePath, content)
+    }
   }
 
   let changelog = ''
@@ -169,7 +173,7 @@ export async function update({
     }
   }
 
-  if (createChangelog) {
+  if (createChangelog && !readonly) {
     await Deno.writeTextFile('./updates_changelog.md', changelog)
   }
 

@@ -17,6 +17,7 @@ if (import.meta.main) {
     allowBreaking: args.breaking ?? args.b ?? false,
     allowUnstable: args.unstable ?? args.u ?? false,
     createChangelog: args.changelog ?? args.c ?? false,
+    readonly: args['dry-run'] ?? args['readonly'] ?? false,
   })
 }
 
