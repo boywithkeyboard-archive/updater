@@ -5,7 +5,7 @@ import {
   gray,
   strikethrough,
   white,
-} from 'https://deno.land/std@0.199.0/fmt/colors.ts'
+} from 'https://deno.land/std@0.200.0/fmt/colors.ts'
 import { Files } from './analyze.ts'
 import { registries } from './registries.ts'
 
