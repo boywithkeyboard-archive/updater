@@ -1,5 +1,5 @@
 // Copyright 2023 Samuel Kopp. All rights reserved. MIT license.
-import { walk } from 'https://deno.land/std@0.200.0/fs/walk.ts'
+import { walk } from 'https://deno.land/std@0.201.0/fs/walk.ts'
 import { registries } from './registries.ts'
 
 export type Files = {
