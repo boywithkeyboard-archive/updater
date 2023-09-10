@@ -16,6 +16,7 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
 - `--unstable` / `-u` : allow unstable updates (prereleases)
 - `--changelog` / `-c` : create changelog (updates_changelog.md)
 - `--dry-run` / `--readonly` : don't modify any files
+- `--no-lint` : do not lint/typecheck *(not recommended!)*
 
 #### Labels:
 
@@ -44,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1

@@ -1,4 +1,3 @@
-// Copyright 2023 Samuel Kopp. All rights reserved. MIT license.
 import { Registry } from '../types.ts'
 
 export const denodotland: Registry = {
