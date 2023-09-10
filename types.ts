@@ -1,4 +1,3 @@
-// Copyright 2023 Samuel Kopp. All rights reserved. MIT license.
 export type Registry = {
   registryName: string
   urlPrefix: string
