@@ -69,6 +69,7 @@ export async function update({
         }
 
         const nextVersion = getNextVersion({
+          url,
           currentVersion,
           versions,
           allowBreaking,
@@ -197,12 +198,26 @@ function label(currentVersion: string, nextVersion: string) {
 }
 
 function getNextVersion(args: {
+  url: string
   currentVersion: string
   versions: string[]
   allowBreaking: boolean
   allowUnstable: boolean
 }) {
   args.versions = args.versions.sort(semver.compare)
+
+  // has (valid) semver range
+
+  if (args.url.includes('#')) {
+    const range = semver.validRange(args.url.split('#')[1])
+
+    if (range !== null) {
+      return semver.maxSatisfying(args.versions, args.url.split('#')[1]) ??
+        undefined
+    }
+  }
+
+  // has no/invalid semver range
 
   const latestVersion = args.versions[args.versions.length - 1]
 
