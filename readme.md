@@ -51,5 +51,5 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
   to the url.
 
   ```ts
-  import cheetah from 'https://deno.land/x/cheetah@v1.5.0/mod.ts#~v1.5'
+  import cheetah from 'https://deno.land/x/cheetah@v1.5.2/mod.ts#~v1.5'
   ```
