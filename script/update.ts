@@ -35,7 +35,7 @@ export async function update(input: string[], options: {
           const entry of walk(i, {
             skip: [/^\.git.*$/, /^\.vscode.*$/],
             followSymlinks: false,
-            exts: ['js', 'ts', 'mjs', 'md', 'mdx', 'jsonc', 'json'],
+            exts: ['js', 'ts', 'mjs', 'md', 'mdx', 'json'],
           })
         ) {
           filesChecked++
@@ -95,30 +95,8 @@ async function updateFile(path: string, {
             `@${result.newVersion}`,
           )
       }
-    } else if (normalizedPath.endsWith('/deno.jsonc')) {
-      const json = jsonc.parse(content) as { imports?: Record<string, string> }
 
-      if (!json.imports) {
-        return []
-      }
-
-      for (const key in json.imports) {
-        const result = await checkImport(json.imports[key], {
-          allowBreaking,
-          allowUnstable,
-        })
-
-        if (result) {
-          results.push(result)
-        }
-
-        json.imports[key] = result === null
-          ? json.imports[key]
-          : json.imports[key].replace(
-            `@${result.oldVersion}`,
-            `@${result.newVersion}`,
-          )
-      }
+      content = JSON.stringify(json, null, 2)
     } else {
       const identifiers: Record<string, string> = {}
 
