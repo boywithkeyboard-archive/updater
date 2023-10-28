@@ -1,5 +1,5 @@
-import { Registry } from '../../script/registry.ts'
 import { Gitlab } from 'gitbeaker'
+import { Registry } from '../../script/registry.ts'
 
 const gl = new Gitlab({
   token: '', // just for the sdk to work
@@ -15,7 +15,9 @@ export const den_ooo_gl = new Registry({
   async versions(moduleName) {
     moduleName = moduleName.replace('gl/', '')
 
-    const releases = await gl.ProjectReleases.all(moduleName)
+    const releases = await gl.ProjectReleases.all(moduleName, {
+      maxPages: 5,
+    })
 
     if (releases.length > 0) {
       return releases.map((release) => release.tag_name)

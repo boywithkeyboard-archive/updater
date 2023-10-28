@@ -1,4 +1,4 @@
-import { jsonc } from 'jsonc'
+// import { jsonc } from 'jsonc'
 import slash from 'slash'
 import { gray, green, strikethrough, white } from 'std/fmt/colors.ts'
 import { walk } from 'std/fs/walk.ts'

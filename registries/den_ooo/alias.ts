@@ -2,7 +2,7 @@ import { Registry } from '../../script/registry.ts'
 import { den_ooo_gh } from './gh.ts'
 import { den_ooo_gl } from './gl.ts'
 
-let aliases: Record<string, string | undefined>
+const aliases: Record<string, string | undefined> = await fetchAliases()
 
 async function fetchAliases() {
   const res = await fetch(
@@ -20,38 +20,30 @@ export const den_ooo_alias = new Registry({
   },
 
   async versions(moduleName) {
-    aliases ??= await fetchAliases()
+    const name = aliases[moduleName]
 
-    const realName = aliases[moduleName]
-
-    if (!realName) {
+    if (!name) {
       throw new Error()
     }
 
-    if (realName.startsWith('gh/')) {
-      return await den_ooo_gh.versions(moduleName)
-    } else if (realName.startsWith('gl/')) {
-      return await den_ooo_gl.versions(moduleName)
+    if (name.startsWith('gh/')) {
+      return await den_ooo_gh.versions(name)
     } else {
-      throw new Error()
+      return await den_ooo_gl.versions(name)
     }
   },
 
-  async repositoryUrl(moduleName) {
-    aliases ??= await fetchAliases()
+  repositoryUrl(moduleName) {
+    const name = aliases[moduleName]
 
-    const realName = aliases[moduleName]
-
-    if (!realName) {
+    if (!name) {
       throw new Error()
     }
 
-    if (realName.startsWith('gh/')) {
-      return den_ooo_gh.repositoryUrl(realName)
-    } else if (realName.startsWith('gl/')) {
-      return den_ooo_gl.repositoryUrl(realName)
+    if (name.startsWith('gh/')) {
+      return den_ooo_gh.repositoryUrl(name)
     } else {
-      throw new Error()
+      return den_ooo_gl.repositoryUrl(name)
     }
   },
 
