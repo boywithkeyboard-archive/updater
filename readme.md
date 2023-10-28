@@ -1,4 +1,4 @@
-## deaddeno/update
+## boywithkeyboard's updater
 
 ### CLI
 
@@ -58,4 +58,11 @@ deno run -Ar https://den.ooo/updater ./deno.json
 - [deno.land](https://deno.land)
 - [esm.sh](https://esm.sh)
 - [npm](https://npmjs.com)
+
+  > **Important**\
+  > npm imports are treated slightly different compared to other types of
+  > imports. If you want to pin a dependency, you need to specify an exact
+  > version, e.g. `npm:example@1.0.0`, and if you want to allow updates for a
+  > specific import, you need to add a `^` preceding the version, e.g.
+  > `npm:example@^1.0.0`.
 - [raw.githubusercontent.com](https://raw.githubusercontent.com)
