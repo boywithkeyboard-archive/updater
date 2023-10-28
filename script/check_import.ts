@@ -10,15 +10,10 @@ export type CheckResult = {
   oldVersion: string
   newVersion: string
   versions: string[]
-  /**
-   * 🚧 - e.g. 0.9.0 -> 1.0.0-beta.0 (might be **unstable**)
-   * ⚠️ - e.g. 0.9.0 -> 1.0.0 (might be **breaking**)
-   * 🤞 - e.g. 0.9.0 -> 0.10.0 (might be **unstable**)
-   */
   type:
-    | '🚧'
-    | '⚠️'
-    | '🤞'
+    | 'unstable'
+    | 'breaking'
+    | 'early'
     | null
 }
 
@@ -155,11 +150,11 @@ function label(oldVersion: string, newVersion: string): CheckResult['type'] {
   }
 
   return diff?.startsWith('pre')
-    ? '🚧'
+    ? 'unstable'
     : diff === 'major'
-    ? '⚠️'
+    ? 'breaking'
     : version.major === 0
-    ? '🤞'
+    ? 'early'
     : null
 }
 
