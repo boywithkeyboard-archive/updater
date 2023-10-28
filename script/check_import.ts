@@ -1,12 +1,13 @@
-import { LRUCache } from 'lru-cache'
+// import { LRUCache } from 'lru-cache'
 import * as semver from 'semver'
+import { getNextVersion } from './get_next_version.ts'
 import { registries } from './registries.ts'
 
 export type CheckResult = {
   import: string
   moduleName: string
   registryName: string
-  repositoryUrl: string
+  repositoryUrl: string | null
   oldVersion: string
   newVersion: string
   versions: string[]
@@ -17,11 +18,16 @@ export type CheckResult = {
     | null
 }
 
-const cache = new LRUCache({
-  max: 500,
-  ttl: 30,
-  ttlAutopurge: true,
-})
+const cache = new Map<{
+  importSpecifier: string
+  allowBreaking: boolean
+  allowUnstable: boolean
+}, CheckResult | null>()
+
+// const cache = new LRUCache({
+//   max: 500,
+//   ttl: 30,
+// })
 
 /**
  * Specify a file or directory path to check every import in it for any available updates.
@@ -50,9 +56,9 @@ export async function checkImport(
       importSpecifier,
       allowBreaking,
       allowUnstable,
-    }) as CheckResult
+    })
 
-    if (cachedResult) {
+    if (cachedResult !== undefined) {
       return cachedResult
     }
 
@@ -71,21 +77,21 @@ export async function checkImport(
         : { importString: importSpecifier },
     )
 
-    const repositoryUrl = await registry.repositoryUrl(moduleName)
+    let repositoryUrl: string | null = null
 
-    if (!repositoryUrl) {
-      throw new Error()
-    }
-
-    const versions = (await registry.versions(moduleName)).filter((v) =>
-      semver.valid(v) !== null
-    )
+    try {
+      repositoryUrl = await registry.repositoryUrl(moduleName) ?? null
+      // deno-lint-ignore no-empty
+    } catch (_) {}
 
     let newVersion = version
 
     let result: CheckResult
 
-    if (importSpecifier.endsWith('#pin')) {
+    if (
+      importSpecifier.endsWith('#pin') ||
+      importSpecifier.startsWith('npm:') && !version.startsWith('^')
+    ) {
       result = {
         import: importSpecifier,
         moduleName,
@@ -93,7 +99,7 @@ export async function checkImport(
         repositoryUrl,
         oldVersion: version,
         newVersion,
-        versions,
+        versions: [],
         type: null,
       }
 
@@ -106,19 +112,19 @@ export async function checkImport(
       return result
     }
 
+    const versions = (await registry.versions(moduleName)).filter((v) =>
+      semver.valid(v) !== null
+    )
+
     const nextVersion = getNextVersion({
       importSpecifier,
-      version,
+      version: version.replace('^', ''),
       versions,
       allowBreaking,
       allowUnstable,
     })
 
-    if (!nextVersion) {
-      throw new Error()
-    }
-
-    newVersion = nextVersion
+    newVersion = version.startsWith('^') ? `^${nextVersion}` : nextVersion
 
     result = {
       import: importSpecifier,
@@ -128,7 +134,7 @@ export async function checkImport(
       oldVersion: version,
       newVersion,
       versions,
-      type: label(version, newVersion),
+      type: label(version.replace('^', ''), newVersion.replace('^', '')),
     }
 
     cache.set({
@@ -139,6 +145,7 @@ export async function checkImport(
 
     return result
   } catch (_) {
+    console.log(_)
     return null
   }
 }
@@ -158,54 +165,4 @@ function label(oldVersion: string, newVersion: string): CheckResult['type'] {
     : version.major === 0
     ? 'early'
     : null
-}
-
-function getNextVersion(args: {
-  importSpecifier: string
-  version: string
-  versions: string[]
-  allowBreaking: boolean
-  allowUnstable: boolean
-}) {
-  args.versions = args.versions.sort(semver.compare)
-
-  // has (valid) semver range
-
-  if (args.importSpecifier.includes('#')) {
-    const range = semver.validRange(args.importSpecifier.split('#')[1])
-
-    if (range !== null) {
-      return semver.maxSatisfying(
-        args.versions,
-        args.importSpecifier.split('#')[1],
-      ) ??
-        undefined
-    }
-  }
-
-  // has no/invalid semver range
-
-  const latestVersion = args.versions[args.versions.length - 1]
-
-  const diff = semver.difference(args.version, latestVersion)
-
-  if (semver.gte(args.version, latestVersion)) {
-    return
-  }
-
-  if (latestVersion === args.version || diff === null) {
-    return
-  }
-
-  if (
-    (args.allowBreaking || args.allowUnstable) && diff === 'major' || // breaking
-    args.allowUnstable && diff.startsWith('pre') || // unstable
-    diff === 'minor' || diff === 'patch'
-  ) {
-    return latestVersion
-  }
-
-  args.versions.pop()
-
-  return getNextVersion(args)
 }

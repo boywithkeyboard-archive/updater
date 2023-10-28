@@ -13,7 +13,7 @@ export const registries = [
   esm_sh,
   npm,
   raw_githubusercontent_com,
-  den_ooo_alias,
   den_ooo_gh,
   den_ooo_gl,
+  den_ooo_alias,
 ]

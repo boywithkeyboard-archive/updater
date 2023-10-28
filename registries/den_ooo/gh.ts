@@ -9,9 +9,7 @@ export const den_ooo_gh = new Registry({
   },
 
   versions(moduleName) {
-    moduleName = moduleName.replace('gh/', '')
-
-    return raw_githubusercontent_com.versions(moduleName)
+    return raw_githubusercontent_com.versions(moduleName.replace('gh/', ''))
   },
 
   repositoryUrl(moduleName) {

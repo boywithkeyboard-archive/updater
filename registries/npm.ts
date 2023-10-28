@@ -4,7 +4,7 @@ export const npm = new Registry({
   config: {
     name: 'npm',
     importType: 'string',
-    regex: /^npm:(@[0-9a-zA-Z.-]+\/)?[0-9a-zA-Z.-]+@[^@]+$/,
+    regex: /^npm:(@[0-9a-zA-Z.-]+\/)?[0-9a-zA-Z.-^]+@[^@]+$/,
   },
 
   async versions(moduleName) {
@@ -32,11 +32,15 @@ export const npm = new Registry({
   },
 
   parseImport({ importString }) {
-    const moduleName = importString.substring(4) // remove npm:
+    let moduleName = importString.substring(4)
 
-    const version = moduleName.startsWith('@')
+    const version = moduleName.startsWith('npm:@')
       ? moduleName.split('/')[1].split('@')[1] // scoped module
       : moduleName.split('@')[1] // non-scoped module
+
+    moduleName = moduleName.startsWith('@')
+      ? moduleName.split('@').slice(0, 2).join('@')
+      : moduleName.split('@')[0] // non-scoped module
 
     return {
       moduleName,
