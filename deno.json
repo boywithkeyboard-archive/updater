@@ -3,8 +3,16 @@
     "semiColons": false,
     "singleQuote": true
   },
-  "tasks": {
-    "build": "deno run -A https://deno.land/x/cheetah@v1.5.2/build.ts"
+  "imports": {
+    "gitbeaker": "https://esm.sh/@gitbeaker/rest@39.21.2?target=es2022",
+    "jsonc": "https://esm.sh/jsonc@2.0.0?target=es2022",
+    "lru-cache": "https://esm.sh/lru-cache@10.0.1?target=es2022",
+    "octokit": "https://esm.sh/octokit@3.1.1?target=es2022",
+    "semver": "https://deno.land/std@0.190.0/semver/mod.ts#pin",
+    "std/": "https://deno.land/std@0.201.0/"
   },
-  "lock": false
+  "lock": false,
+  "tasks": {
+    "test": "deno run -A ./test/test.ts"
+  }
 }

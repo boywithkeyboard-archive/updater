@@ -1,4 +1,4 @@
-import { Registry } from '../registry.ts'
+import { Registry } from '../script/registry.ts'
 import { npm } from './npm.ts'
 import { raw_githubusercontent_com } from './raw_githubusercontent_com.ts'
 
@@ -13,14 +13,14 @@ export const cdn_jsdelivr_net = new Registry({
   async versions(moduleName) {
     // github repository
     if (moduleName.includes('/') && !moduleName.startsWith('@')) {
-      return await raw_githubusercontent_com.options.versions(moduleName)
+      return await raw_githubusercontent_com.versions(moduleName)
       // npm package
     } else {
-      return await npm.options.versions(moduleName)
+      return await npm.versions(moduleName)
     }
   },
 
-  async repositoryUrl({ moduleName }) {
+  async repositoryUrl(moduleName) {
     // github repository
     if (moduleName.includes('/') && !moduleName.startsWith('@')) {
       return `https://github.com/${moduleName}`
@@ -39,13 +39,14 @@ export const cdn_jsdelivr_net = new Registry({
 
   parseImport({ importUrl }) {
     const { pathname } = importUrl
+    const arr = pathname.split('/')
 
     // github repository
     if (pathname.startsWith('/gh')) {
       return {
-        moduleName: pathname.split('/')[2] + '/' +
-          pathname.split('/')[3].split('@')[0],
-        version: pathname.split('/')[3].split('@')[1],
+        moduleName: arr[2] + '/' +
+          arr[3].split('@')[0],
+        version: arr[3].split('@')[1],
       }
       // npm package
     } else {
@@ -53,12 +54,12 @@ export const cdn_jsdelivr_net = new Registry({
         .split('/')[2]
         .split('@')[0]
 
-      let version = pathname.split('/')[2].split('@')[1]
+      let version = arr[2].split('@')[1]
 
       if (moduleName.length === 0) {
-        moduleName = pathname.split('/')[2] + '/' +
-          pathname.split('/')[3].split('@')[0]
-        version = pathname.split('/')[3].split('@')[1]
+        moduleName = arr[2] + '/' +
+          arr[3].split('@')[0]
+        version = arr[3].split('@')[1]
       }
 
       return {

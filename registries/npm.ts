@@ -1,4 +1,4 @@
-import { Registry } from '../registry.ts'
+import { Registry } from '../script/registry.ts'
 
 export const npm = new Registry({
   config: {
@@ -19,7 +19,7 @@ export const npm = new Registry({
     return Object.keys(versions)
   },
 
-  async repositoryUrl({ moduleName }) {
+  async repositoryUrl(moduleName) {
     const res = await fetch(`https://registry.npmjs.org/${moduleName}`)
 
     if (!res.ok) {

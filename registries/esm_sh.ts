@@ -1,4 +1,4 @@
-import { Registry } from '../registry.ts'
+import { Registry } from '../script/registry.ts'
 import { npm } from './npm.ts'
 
 export const esm_sh = new Registry({
@@ -10,10 +10,10 @@ export const esm_sh = new Registry({
   },
 
   async versions(moduleName) {
-    return await npm.options.versions(moduleName)
+    return await npm.versions(moduleName)
   },
 
-  async repositoryUrl({ moduleName }) {
+  async repositoryUrl(moduleName) {
     const res = await fetch(`https://registry.npmjs.org/${moduleName}`)
 
     if (!res.ok) {
@@ -28,15 +28,15 @@ export const esm_sh = new Registry({
   parseImport({ importUrl }) {
     const { pathname } = importUrl
 
-    const p = pathname.split('/')
+    const arr = pathname.split('/')
 
-    const moduleName = p[1].startsWith('@')
-      ? `${p[1]}/${p[2].split('@')[0]}`
-      : p[1].split('@')[0]
+    const moduleName = arr[1].startsWith('@')
+      ? `${arr[1]}/${arr[2].split('@')[0]}`
+      : arr[1].split('@')[0]
 
-    const version = p[1].startsWith('@')
-      ? p[2].split('@')[1]
-      : p[1].split('@')[1]
+    const version = arr[1].startsWith('@')
+      ? arr[2].split('@')[1]
+      : arr[1].split('@')[1]
 
     return {
       moduleName,

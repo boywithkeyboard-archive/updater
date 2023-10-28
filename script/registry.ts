@@ -4,7 +4,10 @@ type ParsedData = {
 }
 
 export class Registry<T extends 'string' | 'url'> {
-  options
+  config
+  versions
+  repositoryUrl
+  parseImport
 
   constructor(
     options: {
@@ -15,13 +18,16 @@ export class Registry<T extends 'string' | 'url'> {
       }
       versions: (moduleName: string) => Promise<string[]>
       repositoryUrl: (
-        data: ParsedData,
+        moduleName: string,
       ) => Promise<string | undefined> | (string | undefined)
       parseImport: (
         data: T extends 'url' ? { importUrl: URL } : { importString: string },
       ) => ParsedData
     },
   ) {
-    this.options = options
+    this.config = options.config
+    this.versions = options.versions
+    this.repositoryUrl = options.repositoryUrl
+    this.parseImport = options.parseImport
   }
 }

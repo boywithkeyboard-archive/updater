@@ -1,5 +1,5 @@
 import { Octokit } from 'octokit'
-import { Registry } from '../registry.ts'
+import { Registry } from '../script/registry.ts'
 
 const gh = new Octokit()
 
@@ -28,7 +28,7 @@ export const raw_githubusercontent_com = new Registry({
     return tags.map((tag) => tag.name)
   },
 
-  repositoryUrl({ moduleName }) {
+  repositoryUrl(moduleName) {
     return `https://github.com/${moduleName}`
   },
 

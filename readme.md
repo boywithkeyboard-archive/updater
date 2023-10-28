@@ -19,18 +19,15 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
 
 ### Symbols
 
-- ⚠️ **breaking**
-  \
+- ⚠️ **breaking**\
   This update might break your code.
-- 🚧 **unstable**
-  \
+- 🚧 **unstable**\
   This is a prerelease and might therefore come with unwanted issues.
-- 🤞 **early**
-  \
+- 🤞 **early**\
   This module doesn't strictly adhere to semver yet, so this version might break
   your code.
 
-### Workflow
+### GitHub workflow
 
 [View example](https://github.com/deaddeno/update/blob/dev/docs/workflow.md)
 
@@ -53,3 +50,11 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
   ```ts
   import cheetah from 'https://deno.land/x/cheetah@v1.5.0/mod.ts#~v1.5'
   ```
+
+### Supported registries
+
+- [esm.sh](https://esm.sh) (full support)
+- [cdn.jsdelivr.net](https://jsdelivr.com) (full support)
+- [den.ooo](https://den.ooo) (full support)
+- [deno.land/std](https://deno.land/std) (full support)
+- [deno.land/x](https://deno.land/x) (full support)

@@ -36,12 +36,12 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
         with:
-          title: 'refactor: update deps'
+          title: 'refactor: update dependencies'
           author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
           committer: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
-          commit-message: 'refactor: update deps'
+          commit-message: 'refactor: update dependencies'
           body: '${{ env.CHANGELOG }}'
-          labels: 'deps'
+          labels: 'dependencies'
           delete-branch: true
-          branch: 'refactor/deps'
+          branch: 'refactor/dependencies'
 ```

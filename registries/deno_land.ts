@@ -1,4 +1,4 @@
-import { Registry } from '../registry.ts'
+import { Registry } from '../script/registry.ts'
 
 export const deno_land = new Registry({
   config: {
@@ -21,7 +21,7 @@ export const deno_land = new Registry({
     return versions
   },
 
-  async repositoryUrl({ moduleName }) {
+  async repositoryUrl(moduleName) {
     if (moduleName === 'std') {
       return 'https://github.com/denoland/deno_std'
     }
@@ -43,14 +43,13 @@ export const deno_land = new Registry({
 
   parseImport({ importUrl }) {
     const { pathname } = importUrl
+    const arr = pathname.split('/')
 
     return {
-      moduleName: pathname.startsWith('/std')
-        ? 'std'
-        : pathname.split('/')[2].split('@')[0],
+      moduleName: pathname.startsWith('/std') ? 'std' : arr[2].split('@')[0],
       version: pathname.startsWith('/std')
-        ? pathname.split('/')[1].split('@')[1]
-        : pathname.split('/')[2].split('@')[1],
+        ? arr[1].split('@')[1]
+        : arr[2].split('@')[1],
     }
   },
 })
