@@ -26,7 +26,7 @@ jobs:
 
       - name: Run update
         run: |
-          deno run -A mod.ts -c
+          deno run -A https://den.ooo/updater@v0.11.0 -c
           CHANGELOG=$(cat updates_changelog.md)
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG" >> $GITHUB_ENV
