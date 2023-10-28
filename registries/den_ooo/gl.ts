@@ -9,7 +9,7 @@ export const den_ooo_gl = new Registry({
   config: {
     name: 'den.ooo',
     importType: 'url',
-    regex: /^https:\/\/den\.ooo\/gl\/[^\/]+\/[^\/]+@[^\/]+(\/[^\/]+)*$/,
+    regex: /^https:\/\/den\.ooo\/gl\/[^\/]+\/[^\/]+@[^\/]+.*$/,
   },
 
   async versions(moduleName) {
