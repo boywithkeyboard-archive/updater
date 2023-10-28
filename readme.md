@@ -58,6 +58,7 @@ deno run -Ar https://den.ooo/updater ./deno.json
 - [deno.land](https://deno.land)
 - [esm.sh](https://esm.sh)
 - [npm](https://npmjs.com)
+
   > **Important**\
   > npm imports are treated slightly different. If you want to pin a dependency,
   > you must specify an **exact version**, e.g. `npm:example@1.0.0`, and if you
