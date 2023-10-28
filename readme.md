@@ -48,12 +48,14 @@ deno run -Ar https://den.ooo/updater ./deno.json
   to the url.
 
   ```ts
-  import cheetah from 'https://deno.land/x/cheetah@v1.5.0/mod.ts#~v1.5'
+  import cheetah from 'https://deno.land/x/cheetah@v1.5.2/mod.ts#~v1.5'
   ```
 
 ### Supported registries
 
-- [esm.sh](https://esm.sh) *(npm only)*
-- [cdn.jsdelivr.net](https://jsdelivr.com) *(full support)*
-- [den.ooo](https://den.ooo) *(full support)*
-- [deno.land](https://deno.land) *(full support)*
+- [cdn.jsdelivr.net](https://jsdelivr.com)
+- [den.ooo](https://den.ooo)
+- [deno.land](https://deno.land)
+- [esm.sh](https://esm.sh)
+- [npm](https://npmjs.com)
+- [raw.githubusercontent.com](https://raw.githubusercontent.com)
