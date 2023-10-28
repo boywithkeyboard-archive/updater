@@ -7,7 +7,7 @@ export const raw_githubusercontent_com = new Registry({
   config: {
     name: 'raw.githubusercontent.com',
     importType: 'url',
-    regex: /^https:\/\/raw\.githubusercontent\.com(\/[^\/]+){4,}$/,
+    regex: /^https:\/\/raw\.githubusercontent\.com\/([^\/]+\/){3,}$/,
   },
 
   async versions(moduleName) {

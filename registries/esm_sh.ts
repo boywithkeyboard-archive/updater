@@ -5,8 +5,7 @@ export const esm_sh = new Registry({
   config: {
     name: 'esm.sh',
     importType: 'url',
-    regex:
-      /^https:\/\/esm\.sh\/(@[0-9a-zA-Z.-]+\/)?[0-9a-zA-Z.-]+@[^@]+(\/[^\/]+)*$/,
+    regex: /^https:\/\/esm\.sh\/(@[0-9a-zA-Z.-]+\/)?[0-9a-zA-Z.-]+@[^@]+.*$/,
   },
 
   async versions(moduleName) {

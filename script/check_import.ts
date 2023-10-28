@@ -38,9 +38,11 @@ export async function checkImport(
   {
     allowBreaking = false,
     allowUnstable = false,
+    // logging = false,
   }: {
     allowBreaking?: boolean
     allowUnstable?: boolean
+    // logging?: boolean
   } = {},
 ): Promise<CheckResult | null> {
   try {

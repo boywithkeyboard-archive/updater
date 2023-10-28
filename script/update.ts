@@ -1,4 +1,5 @@
 import { jsonc } from 'jsonc'
+import slash from 'slash'
 import { gray, green, strikethrough, white } from 'std/fmt/colors.ts'
 import { walk } from 'std/fs/walk.ts'
 import { checkImport, CheckResult } from './check_import.ts'
@@ -17,12 +18,15 @@ export async function update(input: string[], options: {
   readOnly?: boolean
 } = {}) {
   let changes: UpdateResult[] = []
+  let filesChecked = 0
 
   for (const i of input) {
     try {
       const { isFile, isDirectory } = await Deno.stat(i)
 
       if (isFile) {
+        filesChecked++
+
         const c = await updateFile(i, options)
 
         changes = [...changes, ...c]
@@ -34,6 +38,8 @@ export async function update(input: string[], options: {
             exts: ['js', 'ts', 'mjs', 'md', 'mdx', 'jsonc', 'json'],
           })
         ) {
+          filesChecked++
+
           const c = await updateFile(entry.path, options)
 
           changes = [...changes, ...c]
@@ -42,7 +48,10 @@ export async function update(input: string[], options: {
     } catch (_) {}
   }
 
-  return changes
+  return {
+    filesChecked,
+    changes: changes.filter((c) => c.oldVersion !== c.newVersion),
+  }
 }
 
 async function updateFile(path: string, {
@@ -56,11 +65,13 @@ async function updateFile(path: string, {
   logging?: boolean
   readOnly?: boolean
 } = {}): Promise<UpdateResult[]> {
+  const normalizedPath = slash(path)
+
   try {
     let content = await Deno.readTextFile(path)
     const results: CheckResult[] = []
 
-    if (path.endsWith('/deno.json')) {
+    if (normalizedPath.endsWith('/deno.json')) {
       const json = JSON.parse(content) as { imports?: Record<string, string> }
 
       if (!json.imports) {
@@ -84,7 +95,7 @@ async function updateFile(path: string, {
             `@${result.newVersion}`,
           )
       }
-    } else if (path.endsWith('/deno.jsonc')) {
+    } else if (normalizedPath.endsWith('/deno.jsonc')) {
       const json = jsonc.parse(content) as { imports?: Record<string, string> }
 
       if (!json.imports) {
@@ -140,13 +151,15 @@ async function updateFile(path: string, {
 
     if (logging) {
       for (const result of results) {
-        logResult(result)
+        if (result.oldVersion !== result.newVersion) {
+          logResult(result)
+        }
       }
     }
 
     return results.map((result) => {
       // @ts-ignore:
-      result.filePath = path
+      result.filePath = normalizedPath
 
       return result
     }) as UpdateResult[]

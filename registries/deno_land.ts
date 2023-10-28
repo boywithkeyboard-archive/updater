@@ -4,7 +4,7 @@ export const deno_land = new Registry({
   config: {
     name: 'deno.land',
     importType: 'url',
-    regex: /^https:\/\/deno\.land\/(x|std)\/[^\/]+@[^\/]+(\/[^\/]+)+$/,
+    regex: /^https:\/\/deno\.land\/((x\/[^\/]+)|std)@[^\/]+.*$/,
   },
 
   async versions(moduleName) {
