@@ -7,7 +7,7 @@
 > multiple files and/or directories.
 
 ```bash
-deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
+deno run -Ar https://den.ooo/updater ./deno.json
 ```
 
 #### Options:
@@ -53,8 +53,7 @@ deno run -Ar https://deno.land/x/update/mod.ts ./deno.json
 
 ### Supported registries
 
-- [esm.sh](https://esm.sh) (full support)
-- [cdn.jsdelivr.net](https://jsdelivr.com) (full support)
-- [den.ooo](https://den.ooo) (full support)
-- [deno.land/std](https://deno.land/std) (full support)
-- [deno.land/x](https://deno.land/x) (full support)
+- [esm.sh](https://esm.sh) *(npm only)*
+- [cdn.jsdelivr.net](https://jsdelivr.com) *(full support)*
+- [den.ooo](https://den.ooo) *(full support)*
+- [deno.land](https://deno.land) *(full support)*
