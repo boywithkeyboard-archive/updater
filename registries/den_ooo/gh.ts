@@ -5,7 +5,7 @@ export const den_ooo_gh = new Registry({
   config: {
     name: 'den.ooo',
     importType: 'url',
-    regex: /^https:\/\/den\.ooo\/gh\/[^\/]+\/[^\/]+@[^\/]+(\/[^\/]+)*$/,
+    regex: /^https:\/\/den\.ooo\/gh\/[^\/]+\/[^\/]+@[^\/]+.*$/,
   },
 
   versions(moduleName) {

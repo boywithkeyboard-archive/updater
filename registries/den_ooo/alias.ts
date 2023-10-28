@@ -16,7 +16,7 @@ export const den_ooo_alias = new Registry({
   config: {
     name: 'den.ooo',
     importType: 'url',
-    regex: /^https:\/\/den\.ooo\/[^\/]+@[^\/]+(\/[^\/]+)*$/,
+    regex: /^https:\/\/den\.ooo\/[^\/]+@[^\/]+.*$/,
   },
 
   async versions(moduleName) {
