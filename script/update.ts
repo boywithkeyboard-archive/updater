@@ -35,7 +35,7 @@ export async function update(input: string[], options: {
           const entry of walk(i, {
             skip: [/^\.git.*$/, /^\.vscode.*$/],
             followSymlinks: false,
-            exts: ['js', 'ts', 'mjs', 'md', 'mdx', 'json'],
+            exts: ['.js', '.ts', '.mjs', '.md', '.mdx', '.json'],
           })
         ) {
           filesChecked++
