@@ -22,15 +22,19 @@ export async function cli() {
     readOnly: args['dry-run'] ?? args['readonly'] ?? false,
   })
 
+  const createChangelog = args.changelog ?? args.c ?? false
+
   if (changes.length === 0) {
     console.info(gray(`Checked ${filesChecked} files, no updates available.`))
+
+    if (createChangelog) {
+      await Deno.writeTextFile('./updates_changelog.md', '')
+    }
 
     Deno.exit()
   }
 
   // create markdown file
-
-  const createChangelog = args.changelog ?? args.c ?? false
 
   if (!createChangelog) {
     Deno.exit()
