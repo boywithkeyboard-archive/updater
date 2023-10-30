@@ -25,7 +25,13 @@ export async function cli() {
   const createChangelog = args.changelog ?? args.c ?? false
 
   if (changes.length === 0) {
-    console.info(gray(`Checked ${filesChecked} files, no updates available.`))
+    console.info(
+      gray(
+        `Checked ${filesChecked} file${
+          filesChecked > 1 ? 's' : ''
+        }, no updates available.`,
+      ),
+    )
 
     if (createChangelog) {
       await Deno.writeTextFile('./updates_changelog.md', '')
