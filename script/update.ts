@@ -45,6 +45,7 @@ export async function update(input: string[], options: {
           changes = [...changes, ...c]
         }
       }
+      // deno-lint-ignore no-empty
     } catch (_) {}
   }
 
@@ -96,7 +97,9 @@ async function updateFile(path: string, {
           )
       }
 
-      content = JSON.stringify(json, null, 2)
+      content = content.endsWith('\n')
+        ? JSON.stringify(json, null, 2) + '\n'
+        : JSON.stringify(json, null, 2)
     } else {
       const identifiers: Record<string, string> = {}
 
