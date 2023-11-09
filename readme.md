@@ -1,8 +1,11 @@
 ## boywithkeyboard's updater
 
+> [!WARNING]
+> This project is currently in public beta and is therefore not yet stable.
+
 ### CLI
 
-> **Note**\
+> [!NOTE]  
 > The entry point can be either a directory or file. You can also specify
 > multiple files and/or directories.
 
@@ -59,7 +62,7 @@ deno run -Ar https://den.ooo/updater ./deno.json
 - [esm.sh](https://esm.sh)
 - [npm](https://npmjs.com)
 
-  > **Important**\
+  > [!IMPORTANT]  
   > npm imports are treated slightly different. If you want to pin a dependency,
   > you must specify an **exact version**, e.g. `npm:example@1.0.0`, and if you
   > want to make a dependency updatable, you must add a preceding `^`, e.g.
