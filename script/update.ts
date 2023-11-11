@@ -122,7 +122,7 @@ async function updateFile(path: string, {
       }
 
       content = content.replace(REGEX, (_, identifier) => {
-        return identifiers[identifier]
+        return identifiers[identifier] ?? _
       })
     }
 
