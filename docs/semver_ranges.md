@@ -1,6 +1,6 @@
 ### Version ranges
 
-**deaddeno/update** uses
+**updater** uses
 [std@0.190.0](https://deno.land/std@0.190.0/semver/mod.ts) to determine the
 latest version. Therefore, you should read the JSDoc documentation
 [here](https://github.com/denoland/deno_std/blob/0.190.0/semver/mod.ts) or
