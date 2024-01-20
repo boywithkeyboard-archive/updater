@@ -58,6 +58,13 @@ Deno.test('esm.sh', async () => {
   assertEquals(result?.oldVersion !== result?.newVersion, true)
 })
 
+Deno.test('esm.sh directory with options', async () => {
+  const result = await checkImport('https://esm.sh/react-use@17.4.2&external=react,react-dom/esm/')
+
+  assertEquals(result !== null, true)
+  assertEquals(result?.oldVersion !== result?.newVersion, true)
+})
+
 Deno.test('npm', async () => {
   const result1 = await checkImport('npm:esbuild@0.19.0')
 
