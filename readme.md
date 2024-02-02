@@ -10,7 +10,7 @@
 > multiple files and/or directories.
 
 ```bash
-deno run -Ar https://den.ooo/updater@v0.13.1/mod.ts ./deno.json
+deno run -Ar https://den.ooo/updater@v0.14.0/mod.ts ./deno.json
 ```
 
 #### Options:
