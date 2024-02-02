@@ -34,8 +34,8 @@ export const esm_sh = new Registry({
       : arr[1].split('@')[0]
 
     const version = arr[1].startsWith('@')
-      ? arr[2].split('@')[1]
-      : arr[1].split('@')[1]
+      ? arr[2].split('@')[1].split("&")[0]
+      : arr[1].split('@')[1].split("&")[0]
 
     return {
       moduleName,
