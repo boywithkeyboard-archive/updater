@@ -1,4 +1,4 @@
-import { parse } from 'std/flags/mod.ts'
+import { parseArgs } from 'std/cli/mod.ts'
 import { gray } from 'std/fmt/colors.ts'
 import { update } from '../script/update.ts'
 
@@ -9,7 +9,7 @@ const labels = {
 }
 
 export async function cli() {
-  const args = parse(Deno.args)
+  const args = parseArgs(Deno.args)
 
   args._ = args._.filter((i) => typeof i === 'string')
 
