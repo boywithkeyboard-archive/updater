@@ -1,0 +1,51 @@
+name: "boywithkeyboard's updater"
+description: "Keep the dependencies of your Deno project up-to-date."
+branding:
+  icon: "arrow-up"
+  color: "green"
+inputs:
+  commitMessage:
+    description: "The commit message and the title for the pull request."
+    required: false
+    default: "deno: update imports"
+  allowBreaking:
+    description: "Allow breaking updates (major releases)."
+    required: false
+    default: "false"
+  allowUnstable:
+    description: "Allow unstable updates (prereleases)."
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+
+  steps:
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+
+    - name: Update Dependencies
+      shell: bash
+      env:
+        ALLOW_BREAKING: ${{ inputs.allowBreaking }}
+        ALLOW_UNSTABLE: ${{ inputs.allowUnstable }}
+      run: |
+        deno run -A https://den.ooo/gh/boywithkeyboard/updater@0.15.0/mod.ts -c --breaking=$ALLOW_BREAKING --unstable=$ALLOW_UNSTABLE
+        CHANGELOG=$(cat updates_changelog.md)
+        echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+        echo "$CHANGELOG" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+        rm updates_changelog.md
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        title: ${{ inputs.commitMessage }}
+        author: ${{ inputs.committer }}
+        committer: web-flow <19864447+web-flow@users.noreply.github.com>
+        commit-message: ${{ inputs.commitMessage }}
+        body: ${{ env.CHANGELOG }}
+        delete-branch: true
+        branch: deno/imports
