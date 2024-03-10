@@ -1,0 +1,26 @@
+### Action
+
+```yml
+name: update
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run updater
+        uses: boywithkeyboard/updater@v0
+      #  with:
+      #    allowBreaking: true
+```
