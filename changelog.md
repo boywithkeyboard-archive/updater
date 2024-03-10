@@ -3,7 +3,7 @@
 - **Safe Mode**  
   Compatibility checking through `deno check` and `deno lint` can now be enabled with the `--safe-mode` flag or the `safeMode` option.
 
-## [v0.15.1](https://github.com/boywithkeyboard/updater/releases/tag/v0.15.1)
+## [v0.15.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.15.0)
 
 - **GitHub Action**  
   It's now easier than ever to integrate **boywithkeyboard's updater** into your workflow.
