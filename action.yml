@@ -32,7 +32,7 @@ runs:
         ALLOW_BREAKING: ${{ inputs.allowBreaking }}
         ALLOW_UNSTABLE: ${{ inputs.allowUnstable }}
       run: |
-        deno run -A https://den.ooo/gh/boywithkeyboard/updater@0.15.0/mod.ts -c --breaking=$ALLOW_BREAKING --unstable=$ALLOW_UNSTABLE
+        deno run -A https://den.ooo/gh/boywithkeyboard/updater@v0.15.0/mod.ts -c --breaking=$ALLOW_BREAKING --unstable=$ALLOW_UNSTABLE
         CHANGELOG=$(cat updates_changelog.md)
         echo "CHANGELOG<<EOF" >> $GITHUB_ENV
         echo "$CHANGELOG" >> $GITHUB_ENV
@@ -44,7 +44,7 @@ runs:
       with:
         title: ${{ inputs.commitMessage }}
         author: ${{ inputs.committer }}
-        committer: web-flow <19864447+web-flow@users.noreply.github.com>
+        committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
         commit-message: ${{ inputs.commitMessage }}
         body: ${{ env.CHANGELOG }}
         delete-branch: true
