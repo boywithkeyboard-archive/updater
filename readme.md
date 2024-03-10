@@ -1,53 +1,58 @@
-# boywithkeyboard's updater
+## boywithkeyboard's updater
 
-## Usage
+### Usage
 
-### CLI
+The script is available as a [GitHub Action](https://docs.github.com/en/actions/learn-github-actions) for easy integration into your workflow.
 
-The entry point can be either a directory or file. You can also specify multiple files and/or directories.
+```yml
+name: update
 
-```bash
-deno run -Ar https://den.ooo/gh/boywithkeyboard/updater@v0.15.0/mod.ts ./deno.json
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run updater
+        uses: boywithkeyboard/updater@v0
+      #  with:
+      #    allowBreaking: true
 ```
 
-**Options:**
+#### Options:
 
-- `--breaking` / `-b` : allow breaking updates (major releases)
-- `--unstable` / `-u` : allow unstable updates (prereleases)
-- `--changelog` / `-c` : create changelog (updates_changelog.md)
-- `--dry-run` / `--readonly` : don't apply updates
-<!-- - `--safe-mode` / `-s` : perform compatibility checks -->
-
-### GitHub Action
-
-**Options:**
-
-- `commitMessage` : commit message/title for the pull request
-- `allowBreaking` : allow breaking updates (major releases)
-- `allowUnstable` : allow unstable updates (prereleases)
+- `commitMessage` - Commit message and title for the pull request.
+- `allowBreaking` - Allow breaking updates (major releases).
+- `allowUnstable` - Allow unstable updates (prereleases).
 <!-- - `safeMode` : perform compatibility checks -->
 
-[View example](https://github.com/boywithkeyboard/updater/blob/main/docs/action.md)
+If you prefer to use this tool in another way, please read our [alternative uses](https://github.com/boywithkeyboard/updater/blob/main/docs/alternative_uses.md).
 
-### GitHub Workflow
+### Stages
 
-[View example](https://github.com/boywithkeyboard/updater/blob/main/docs/workflow.md)
+- **⚠️ breaking**
 
-## Stages
+  *"This update might break your code."*
 
-### ⚠️ breaking
+- **🚧 unstable**
 
-*"This update might break your code."*
+  *"This is a prerelease and might therefore come with unwanted issues."*
 
-### 🚧 unstable
+- **🤞 early**
 
-*"This is a prerelease and might therefore come with unwanted issues."*
+  *"This module doesn't strictly adhere to semver yet, so this version might break your code."*
 
-### 🤞 early
-
-*"This module doesn't strictly adhere to semver yet, so this version might break your code."*
-
-## Advanced Usage
+### Advanced Usage
 
 - **Pin a dependency**
 
@@ -65,7 +70,7 @@ deno run -Ar https://den.ooo/gh/boywithkeyboard/updater@v0.15.0/mod.ts ./deno.js
   import cheetah from 'https://deno.land/x/cheetah@v1.5.2/mod.ts#~v1.5'
   ```
 
-## Supported Registries
+### Supported Registries
 
 - [cdn.jsdelivr.net](https://jsdelivr.com)
 
