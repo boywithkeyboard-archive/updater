@@ -41,11 +41,9 @@ jobs:
               prerelease: false
             })
 
-            core.exportVariable('VERSION', version)
-
       - name: Bump Major Version
         run: |
-          full="$VERSION"
+          full="$TAG"
           short="${full:0:2}"
           git tag $short -f
           git push --tags -f
