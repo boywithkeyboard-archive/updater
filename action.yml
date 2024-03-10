@@ -43,7 +43,7 @@ runs:
       uses: peter-evans/create-pull-request@v6
       with:
         title: ${{ inputs.commitMessage }}
-        author: ${{ inputs.committer }}
+        author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
         committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
         commit-message: ${{ inputs.commitMessage }}
         body: ${{ env.CHANGELOG }}
