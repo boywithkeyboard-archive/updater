@@ -18,5 +18,3 @@ jobs:
 
       - name: Run updater
         uses: boywithkeyboard/updater@v0
-      #  with:
-      #    allowBreaking: true
