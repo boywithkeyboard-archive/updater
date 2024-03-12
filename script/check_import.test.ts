@@ -59,7 +59,9 @@ Deno.test('esm.sh', async () => {
 })
 
 Deno.test('esm.sh directory with options', async () => {
-  const result = await checkImport('https://esm.sh/react-use@17.4.2&external=react,react-dom/esm/')
+  const result = await checkImport(
+    'https://esm.sh/react-use@17.4.2&external=react,react-dom/esm/',
+  )
 
   assertEquals(result !== null, true)
   assertEquals(result?.oldVersion !== result?.newVersion, true)
@@ -84,4 +86,16 @@ Deno.test('raw.githubusercontent.com', async () => {
 
   assertEquals(result !== null, true)
   assertEquals(result?.oldVersion !== result?.newVersion, true)
+})
+
+Deno.test('jsr', async () => {
+  const result1 = await checkImport('jsr:@std/encoding@0.219.0')
+
+  assertEquals(result1 !== null, true)
+  assertEquals(result1?.oldVersion === result1?.newVersion, true)
+
+  const result2 = await checkImport('jsr:@std/encoding@^0.218.0')
+
+  assertEquals(result2 !== null, true)
+  assertEquals(result2?.oldVersion !== result2?.newVersion, true)
 })

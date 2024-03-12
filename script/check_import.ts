@@ -90,7 +90,7 @@ export async function checkImport(
 
     if (
       importSpecifier.endsWith('#pin') ||
-      importSpecifier.startsWith('npm:') && !version.startsWith('^')
+      registry.config.importType === 'string' && !version.startsWith('^')
     ) {
       result = {
         import: importSpecifier,

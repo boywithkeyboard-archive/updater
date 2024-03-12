@@ -4,6 +4,7 @@ import { den_ooo_gh } from '../registries/den_ooo/gh.ts'
 import { den_ooo_gl } from '../registries/den_ooo/gl.ts'
 import { deno_land } from '../registries/deno_land.ts'
 import { esm_sh } from '../registries/esm_sh.ts'
+import { jsr } from '../registries/jsr.ts'
 import { npm } from '../registries/npm.ts'
 import { raw_githubusercontent_com } from '../registries/raw_githubusercontent_com.ts'
 
@@ -16,4 +17,5 @@ export const registries = [
   den_ooo_gh,
   den_ooo_gl,
   den_ooo_alias,
+  jsr,
 ]
