@@ -13,6 +13,8 @@ export const deno_land = new Registry({
     )
 
     if (!res.ok) {
+      await res.body?.cancel()
+
       return []
     }
 
@@ -31,6 +33,8 @@ export const deno_land = new Registry({
     )
 
     if (!res.ok) {
+      await res.body?.cancel()
+
       return
     }
 

@@ -16,6 +16,8 @@ export const esm_sh = new Registry({
     const res = await fetch(`https://registry.npmjs.org/${moduleName}`)
 
     if (!res.ok) {
+      await res.body?.cancel()
+
       return
     }
 
@@ -34,8 +36,8 @@ export const esm_sh = new Registry({
       : arr[1].split('@')[0]
 
     const version = arr[1].startsWith('@')
-      ? arr[2].split('@')[1].split("&")[0]
-      : arr[1].split('@')[1].split("&")[0]
+      ? arr[2].split('@')[1].split('&')[0]
+      : arr[1].split('@')[1].split('&')[0]
 
     return {
       moduleName,

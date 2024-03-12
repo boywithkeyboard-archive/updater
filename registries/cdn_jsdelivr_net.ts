@@ -29,6 +29,8 @@ export const cdn_jsdelivr_net = new Registry({
     const res = await fetch(`https://registry.npmjs.org/${moduleName}`)
 
     if (!res.ok) {
+      await res.body?.cancel()
+
       return
     }
 

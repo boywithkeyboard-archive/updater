@@ -11,6 +11,8 @@ export const npm = new Registry({
     const res = await fetch(`https://registry.npmjs.org/${moduleName}`)
 
     if (!res.ok) {
+      await res.body?.cancel()
+
       return []
     }
 
@@ -23,6 +25,8 @@ export const npm = new Registry({
     const res = await fetch(`https://registry.npmjs.org/${moduleName}`)
 
     if (!res.ok) {
+      await res.body?.cancel()
+
       return
     }
 
