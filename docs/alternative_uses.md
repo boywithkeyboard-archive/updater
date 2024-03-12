@@ -4,7 +4,7 @@ The entry point can be either a directory or file. You can also specify multiple
 files and/or directories.
 
 ```bash
-deno run -Ar https://den.ooo/gh/boywithkeyboard/updater@v0.15.0/mod.ts ./deno.json
+deno run -Ar https://den.ooo/gh/boywithkeyboard/updater@v0.16.0/mod.ts ./deno.json
 ```
 
 **Options:**
