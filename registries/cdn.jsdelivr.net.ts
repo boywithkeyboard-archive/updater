@@ -1,6 +1,6 @@
 import { Registry } from '../script/registry.ts'
 import { npm } from './npm.ts'
-import { raw_githubusercontent_com } from './raw_githubusercontent_com.ts'
+import { raw_githubusercontent_com } from './raw.githubusercontent.com.ts'
 
 export const cdn_jsdelivr_net = new Registry({
   config: {

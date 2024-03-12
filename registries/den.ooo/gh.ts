@@ -1,5 +1,5 @@
 import { Registry } from '../../script/registry.ts'
-import { raw_githubusercontent_com } from '../raw_githubusercontent_com.ts'
+import { raw_githubusercontent_com } from '../raw.githubusercontent.com.ts'
 
 export const den_ooo_gh = new Registry({
   config: {
