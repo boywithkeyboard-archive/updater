@@ -1,7 +1,10 @@
 {
   "fmt": {
     "semiColons": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "exclude": [
+      "changelog.md"
+    ]
   },
   "imports": {
     "gitbeaker": "https://esm.sh/@gitbeaker/rest@39.34.3?target=es2022",
