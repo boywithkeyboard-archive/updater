@@ -2,7 +2,9 @@
 
 ### Usage
 
-The script is available as a [GitHub Action](https://docs.github.com/en/actions/learn-github-actions) for easy integration into your workflow.
+The script is available as a
+[GitHub Action](https://docs.github.com/en/actions/learn-github-actions) for
+easy integration into your workflow.
 
 ```yml
 name: update
@@ -34,23 +36,26 @@ jobs:
 - `commitMessage` - Commit message and title for the pull request.
 - `allowBreaking` - Allow breaking updates (major releases).
 - `allowUnstable` - Allow unstable updates (prereleases).
+
 <!-- - `safeMode` : perform compatibility checks -->
 
-If you prefer to use this tool in another way, please read our [alternative uses](https://github.com/boywithkeyboard/updater/blob/main/docs/alternative_uses.md).
+If you prefer to use this tool in another way, please read our
+[alternative uses](https://github.com/boywithkeyboard/updater/blob/main/docs/alternative_uses.md).
 
 ### Stages
 
 - **⚠️ breaking**
 
-  *"This update might break your code."*
+  _"This update might break your code."_
 
 - **🚧 unstable**
 
-  *"This is a prerelease and might therefore come with unwanted issues."*
+  _"This is a prerelease and might therefore come with unwanted issues."_
 
 - **🤞 early**
 
-  *"This module doesn't strictly adhere to semver yet, so this version might break your code."*
+  _"This module doesn't strictly adhere to semver yet, so this version might
+  break your code."_
 
 ### Advanced Usage
 
@@ -64,7 +69,9 @@ If you prefer to use this tool in another way, please read our [alternative uses
 
 - **Specify a version range**
 
-  To override the default behavior, you can append a [SemVer range](https://github.com/deaddeno/update/blob/dev/docs/semver_ranges.md) to the url.
+  To override the default behavior, you can append a
+  [SemVer range](https://github.com/deaddeno/update/blob/dev/docs/semver_ranges.md)
+  to the url.
 
   ```ts
   import cheetah from 'https://deno.land/x/cheetah@v1.5.2/mod.ts#~v1.5'
@@ -82,8 +89,13 @@ If you prefer to use this tool in another way, please read our [alternative uses
 
 - [npm](https://npmjs.com)
 
-  npm imports are treated slightly different. If you want to pin a dependency, you must specify an **exact version**, e.g. `npm:example@1.0.0`, and if you want to make a dependency updatable, you must add a preceding `^`, e.g. `npm:example@^1.0.0`.
+  `npm:` imports are treated slightly different. If you want to pin a
+  dependency, you must specify an **exact version**, e.g. `npm:example@1.0.0`,
+  and if you want to make a dependency updatable, you must add a preceding `^`,
+  e.g. `npm:example@^1.0.0`.
 
 - [raw.githubusercontent.com](https://raw.githubusercontent.com)
 
-- [jsr](https://jsr.io) *(coming soon)*
+- [jsr](https://jsr.io)
+
+  `jsr:` imports are treated the same as `npm:` imports.

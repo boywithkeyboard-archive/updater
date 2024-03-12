@@ -14,24 +14,24 @@ export async function cli() {
   args._ = args._.filter((i) => typeof i === 'string')
 
   const files = args._.length > 0 ? args._ as string[] : [Deno.cwd()]
-  
+
   const parsedArgs = {
     allowBreaking: args.breaking ?? args.b ?? false,
     allowUnstable: args.unstable ?? args.u ?? false,
     logging: true,
     readOnly: args['dry-run'] ?? args['readonly'] ?? false,
   }
-  
+
   if (typeof parsedArgs.allowBreaking === 'string') {
     parsedArgs.allowBreaking = parsedArgs.allowBreaking === 'true'
   }
-  
+
   if (typeof parsedArgs.allowUnstable === 'string') {
     parsedArgs.allowUnstable = parsedArgs.allowUnstable === 'true'
   }
 
   const { filesChecked, changes } = await update(files, parsedArgs)
-  
+
   const createChangelog = args.changelog ?? args.c ?? false
 
   if (changes.length === 0) {
@@ -65,6 +65,7 @@ export async function cli() {
     'deno.land': [],
     'esm.sh': [],
     'npm': [],
+    'jsr': [],
     'raw.githubusercontent.com': [],
   }
 
