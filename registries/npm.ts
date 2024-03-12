@@ -36,9 +36,9 @@ export const npm = new Registry({
   },
 
   parseImport({ importString }) {
-    let moduleName = importString.substring(4)
+    let moduleName = importString.slice(4)
 
-    const version = moduleName.startsWith('npm:@')
+    const version = moduleName.charAt(0) === '@'
       ? moduleName.split('/')[1].split('@')[1] // scoped module
       : moduleName.split('@')[1] // non-scoped module
 
