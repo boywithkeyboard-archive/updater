@@ -2,7 +2,7 @@
   <h1>boywithkeyboard's updater</h1>
 </div>
 
-![Demo](https://raw.githubusercontent.com/boywithkeyboard/updater/main/.github/demo.png)
+![Demo](https://raw.githubusercontent.com/boywithkeyboard/updater/main/.github/showcase.png)
 
 ### Usage
 
