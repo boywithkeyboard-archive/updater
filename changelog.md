@@ -4,9 +4,19 @@
 
   If your project has a `deno.lock` file, the script will now attempt to update this file as well.
 
-- **Safe Mode**
+- **Full Version Range Support**
 
-  You can now enable **compatibility checking** (with `deno check` and `deno lint`) through the `--safe-mode` flag or the `safeMode` option.
+  updater now supports version ranges in `npm:` and `jsr:` specifiers.
+
+- **Support for denopkg.com & nest.land**
+
+  updater can now handle `https://denopkg.com/...` and `https://x.nest.land/...` imports.
+
+## [v0.17.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.17.0)
+
+- **Compatibility Checking**
+
+  updater now performs a basic compatibility check (with `deno check`) and adds a warning to the changelog if there are any issues.
 
 ## [v0.16.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.16.0)
 
