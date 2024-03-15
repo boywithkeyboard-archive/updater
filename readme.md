@@ -10,6 +10,11 @@ The script is available as a
 [GitHub Action](https://docs.github.com/en/actions/learn-github-actions) for
 easy integration into your workflow.
 
+> [!IMPORTANT]\
+> Please make sure that you have enabled the **Allow GitHub actions to create
+> and approve pull requests** setting, as shown
+> [here](https://github.com/boywithkeyboard/updater/blob/main/.github/workflow_permission.png).
+
 ```yml
 name: update
 
@@ -40,6 +45,7 @@ jobs:
 - `commitMessage` - Commit message and title for the pull request.
 - `allowBreaking` - Allow breaking updates (major releases).
 - `allowUnstable` - Allow unstable updates (prereleases).
+
 <!-- - `safeMode` - Perform compatibility checks. -->
 
 If you prefer to use this tool in another way, please read our
