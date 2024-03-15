@@ -1,6 +1,27 @@
 import { parseArgs } from 'std/cli/mod.ts'
 import { gray } from 'std/fmt/colors.ts'
+import { walkSync } from 'std/fs/walk.ts'
 import { update } from '../script/update.ts'
+
+function hasFileWithExt(ext: string) {
+  for (const entry of walkSync(Deno.cwd())) {
+    if (entry.isFile && entry.path.endsWith(ext)) {
+      return true
+    }
+  }
+
+  return false
+}
+
+function typeCheck(taskName: string) {
+  const cmd = new Deno.Command('deno', {
+    args: ['task', '--config', './__updater_deno.json', taskName],
+  })
+
+  const output = cmd.outputSync()
+
+  return output.success
+}
 
 const labels = {
   unstable: '🚧',
@@ -64,8 +85,8 @@ export async function cli() {
     'den.ooo': [],
     'deno.land': [],
     'esm.sh': [],
-    'npm': [],
     'jsr': [],
+    'npm': [],
     'raw.githubusercontent.com': [],
   }
 
@@ -97,7 +118,58 @@ export async function cli() {
     changelog += arr.join('\n')
   }
 
-  await Deno.writeTextFile('./updates_changelog.md', changelog)
+  // add temporary deno.json config
+  Deno.writeTextFileSync(
+    './__updater_deno.json',
+    JSON.stringify(
+      {
+        tasks: {
+          check_ts: 'deno check **/*.ts',
+          check_js: 'deno check **/*.js',
+          check_mjs: 'deno check **/*.mjs',
+        },
+      },
+      null,
+      2,
+    ),
+  )
+
+  let typeCheckingSucceeded = true
+  const failedOn: string[] = []
+
+  if (typeCheckingSucceeded && hasFileWithExt('.ts')) {
+    typeCheckingSucceeded = typeCheck('check_ts')
+
+    if (!typeCheckingSucceeded) {
+      failedOn.push('.ts')
+    }
+  }
+
+  if (typeCheckingSucceeded && hasFileWithExt('.js')) {
+    typeCheckingSucceeded = typeCheck('check_js')
+
+    if (!typeCheckingSucceeded) {
+      failedOn.push('.js')
+    }
+  }
+
+  if (typeCheckingSucceeded && hasFileWithExt('.mjs')) {
+    typeCheckingSucceeded = typeCheck('check_mjs')
+
+    if (!typeCheckingSucceeded) {
+      failedOn.push('.mjs')
+    }
+  }
+
+  if (!typeCheckingSucceeded) {
+    changelog = `> [!CAUTION]\\\n> \`deno check\` failed on some ${failedOn.map(item => `\`${item}\``).join(', ').replace(/,(?=[^,]+$)/, ', and')} files.\n\n` +
+      changelog
+  }
+
+  // remove temporary deno.json config
+  Deno.removeSync('./__updater_deno.json')
+
+  Deno.writeTextFileSync('./updates_changelog.md', changelog)
 
   Deno.exit()
 }
