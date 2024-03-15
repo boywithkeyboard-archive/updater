@@ -46,8 +46,6 @@ jobs:
 - `allowBreaking` - Allow breaking updates (major releases).
 - `allowUnstable` - Allow unstable updates (prereleases).
 
-<!-- - `safeMode` - Perform compatibility checks. -->
-
 If you prefer to use this tool in another way, please read our
 [alternative uses](https://github.com/boywithkeyboard/updater/blob/main/docs/alternative_uses.md).
 

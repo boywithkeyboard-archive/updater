@@ -14,8 +14,6 @@ deno run -Ar https://den.ooo/gh/boywithkeyboard/updater@v0.16.0/mod.ts ./deno.js
 - `--changelog` / `-c` : create changelog (updates_changelog.md)
 - `--dry-run` / `--readonly` : don't apply updates
 
-<!-- - `--safe-mode` / `-s` : perform compatibility checks -->
-
 ## GitHub Workflow
 
 ```yml
