@@ -1,4 +1,8 @@
-## boywithkeyboard's updater
+<div align='center'>
+  <h1>boywithkeyboard's updater</h1>
+</div>
+
+![Demo](https://raw.githubusercontent.com/boywithkeyboard/updater/main/.github/demo.png)
 
 ### Usage
 
@@ -36,8 +40,7 @@ jobs:
 - `commitMessage` - Commit message and title for the pull request.
 - `allowBreaking` - Allow breaking updates (major releases).
 - `allowUnstable` - Allow unstable updates (prereleases).
-
-<!-- - `safeMode` : perform compatibility checks -->
+<!-- - `safeMode` - Perform compatibility checks. -->
 
 If you prefer to use this tool in another way, please read our
 [alternative uses](https://github.com/boywithkeyboard/updater/blob/main/docs/alternative_uses.md).
@@ -85,17 +88,21 @@ If you prefer to use this tool in another way, please read our
 
 - [deno.land](https://deno.land)
 
+<!-- - [denopkg.com](https://denopkg.com) -->
+
 - [esm.sh](https://esm.sh)
-
-- [npm](https://npmjs.com)
-
-  `npm:` imports are treated slightly different. If you want to pin a
-  dependency, you must specify an **exact version**, e.g. `npm:example@1.0.0`,
-  and if you want to make a dependency updatable, you must add a preceding `^`,
-  e.g. `npm:example@^1.0.0`.
-
-- [raw.githubusercontent.com](https://raw.githubusercontent.com)
 
 - [jsr](https://jsr.io)
 
-  `jsr:` imports are treated the same as `npm:` imports.
+  `jsr:` imports are treated slightly different. If you want to pin a
+  dependency, you must specify an **exact version**, e.g. `jsr:example@1.0.0`,
+  and if you want to make a dependency updatable, you must add a preceding `^`,
+  e.g. `jsr:example@^1.0.0`.
+
+- [npm](https://npmjs.com)
+
+  `npm:` imports are treated the same as `jsr:` imports.
+
+- [raw.githubusercontent.com](https://raw.githubusercontent.com)
+
+<!-- - [x.nest.land](https://nest.land) -->
