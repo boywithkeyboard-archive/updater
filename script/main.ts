@@ -13,7 +13,7 @@ function hasFileWithExt(ext: string) {
   return false
 }
 
-function typeCheck(taskName: string) {
+function execTask(taskName: string) {
   const cmd = new Deno.Command('deno', {
     args: ['task', '--config', './__updater_deno.json', taskName],
   })
@@ -21,6 +21,10 @@ function typeCheck(taskName: string) {
   const output = cmd.outputSync()
 
   return output.success
+}
+
+function typeCheck(taskName: string) {
+  return execTask(taskName)
 }
 
 const labels = {
@@ -127,6 +131,8 @@ export async function cli() {
           check_ts: 'deno check **/*.ts',
           check_js: 'deno check **/*.js',
           check_mjs: 'deno check **/*.mjs',
+          cache_all:
+            'deno cache **/*.ts && deno cache **/*.js && deno cache **/*.mjs',
         },
       },
       null,
@@ -162,14 +168,40 @@ export async function cli() {
   }
 
   if (!typeCheckingSucceeded) {
-    changelog = `> [!CAUTION]\\\n> \`deno check\` failed on some ${failedOn.map(item => `\`${item}\``).join(', ').replace(/,(?=[^,]+$)/, ', and')} files.\n\n` +
+    changelog =
+      `> [!CAUTION]\\\n> \`deno check\` failed on some ${
+        failedOn.map((item) => `\`${item}\``).join(', ').replace(
+          /,(?=[^,]+$)/,
+          ', and',
+        )
+      } files.\n\n` +
       changelog
+  }
+
+  Deno.writeTextFileSync('./updates_changelog.md', changelog)
+
+  // remove old lock file
+  let hadLockFile = false
+
+  try {
+    const stat = Deno.statSync('./deno.lock')
+
+    if (stat.isFile) {
+      hadLockFile = true
+
+      Deno.removeSync('./deno.lock')
+    }
+  } catch (_err) {
+    //
+  }
+
+  // generate new lock file
+  if (hadLockFile) {
+    execTask('cache_all')
   }
 
   // remove temporary deno.json config
   Deno.removeSync('./__updater_deno.json')
-
-  Deno.writeTextFileSync('./updates_changelog.md', changelog)
 
   Deno.exit()
 }
