@@ -1,5 +1,5 @@
 import { assertEquals } from 'std/assert/mod.ts'
-import { checkImport } from '../script/check_import.ts'
+import { checkImport } from '../script/checkImport.ts'
 
 Deno.test('cdn.jsdelivr.net', async () => {
   const result1 = await checkImport(
