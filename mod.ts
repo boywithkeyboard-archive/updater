@@ -4,5 +4,5 @@ if (import.meta.main) {
   cli()
 }
 
-export { checkImport } from './script/check_import.ts'
+export { checkImport } from './script/checkImport.ts'
 export { update } from './script/update.ts'

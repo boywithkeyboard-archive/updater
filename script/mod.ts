@@ -1,2 +1,2 @@
-export { checkImport } from './check_import.ts'
+export { checkImport } from './checkImport.ts'
 export { update } from './update.ts'

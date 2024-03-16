@@ -2,7 +2,7 @@
 import slash from 'slash'
 import { gray, green, strikethrough, white } from 'std/fmt/colors.ts'
 import { walk } from 'std/fs/walk.ts'
-import { checkImport, CheckResult } from './check_import.ts'
+import { checkImport, CheckResult } from './checkImport.ts'
 
 const REGEX =
   /(?:(?<=(?:import|export)[^`'"]*from\s+[`'"])(?<path1>[^`'"]+)(?=(?:'|"|`)))|(?:\b(?:import|export)(?:\s+|\s*\(\s*)[`'"](?<path2>[^`'"]+)[`'"])/g

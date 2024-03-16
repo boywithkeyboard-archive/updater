@@ -1,6 +1,6 @@
 // import { LRUCache } from 'lru-cache'
 import * as semver from 'semver'
-import { getNextVersion } from './get_next_version.ts'
+import { getNextVersion } from './getNextVersion.ts'
 import { registries } from './registries.ts'
 
 export type CheckResult = {
