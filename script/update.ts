@@ -104,7 +104,13 @@ async function updateFile(path: string, {
       const identifiers: Record<string, string> = {}
 
       for (const match of content.matchAll(REGEX)) {
-        const result = await checkImport(match[0], {
+        const identifier = match.groups?.path1 ?? match.groups?.path2
+
+        if (!identifier) {
+          continue
+        }
+
+        const result = await checkImport(identifier, {
           allowBreaking,
           allowUnstable,
         })
@@ -113,16 +119,19 @@ async function updateFile(path: string, {
           results.push(result)
         }
 
-        identifiers[match[0]] = result === null
-          ? match[0] as string
-          : (match[0] as string).replace(
+        identifiers[identifier] = result === null
+          ? identifier as string
+          : (identifier as string).replace(
             `@${result.oldVersion}`,
             `@${result.newVersion}`,
           )
       }
 
-      content = content.replace(REGEX, (_, identifier) => {
-        return identifiers[identifier] ?? _
+      content = content.replace(REGEX, (...args) => {
+        const identifier = args[args.length - 1].path1 ??
+          args[args.length - 1].path2
+
+        return identifiers[identifier]
       })
     }
 
