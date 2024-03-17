@@ -1,8 +1,8 @@
 name: "boywithkeyboard's updater"
 description: "Keep the dependencies of your Deno project up-to-date."
 branding:
-  icon: "arrow-up"
-  color: "white"
+  icon: "package"
+  color: "gray-dark"
 inputs:
   commitMessage:
     description: "The commit message and the title for the pull request."
@@ -32,7 +32,7 @@ runs:
         ALLOW_BREAKING: ${{ inputs.allowBreaking }}
         ALLOW_UNSTABLE: ${{ inputs.allowUnstable }}
       run: |
-        deno run -A https://den.ooo/gh/boywithkeyboard/updater@v0.17.0/mod.ts -c --breaking=$ALLOW_BREAKING --unstable=$ALLOW_UNSTABLE
+        deno run -A https://den.ooo/gh/boywithkeyboard/updater@v0.18.0/mod.ts -c --breaking=$ALLOW_BREAKING --unstable=$ALLOW_UNSTABLE
         CHANGELOG=$(cat updates_changelog.md)
         echo "CHANGELOG<<EOF" >> $GITHUB_ENV
         echo "$CHANGELOG" >> $GITHUB_ENV

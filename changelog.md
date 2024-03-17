@@ -1,4 +1,4 @@
-## Upcoming
+## [v0.18.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.0)
 
 - **Regenerate `deno.lock`.** If your project has a `deno.lock` file, updater will now regenerate this file as well.
 
