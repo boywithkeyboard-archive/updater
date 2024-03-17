@@ -1,16 +1,10 @@
 ## Upcoming
 
-- **Support for `deno.lock`**
+- **Regenerate `deno.lock`.** If your project has a `deno.lock` file, updater will now regenerate this file as well.
 
-  If your project has a `deno.lock` file, the script will now attempt to update this file as well.
-
-- **Full Version Range Support**
-
-  updater now supports version ranges in `npm:` and `jsr:` specifiers.
-
-- **Support for denopkg.com & nest.land**
-
-  updater can now handle `https://denopkg.com/...` and `https://x.nest.land/...` imports.
+- **Update side effect imports.** updater used to ignore such imports in the past due to a minor bug that occurred during the parsing of the regex matches. This issue has now been resolved.
+  
+  [mdn reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only)
 
 ## [v0.17.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.17.0)
 
