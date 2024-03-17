@@ -6,6 +6,8 @@
   
   [mdn reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only)
 
+- **Support for denopkg.com.** updater can now update `https://denopkg.com/...` imports.
+
 ## [v0.17.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.17.0)
 
 - **Compatibility Checking**
