@@ -92,7 +92,7 @@ If you prefer to use this tool in another way, please read our
 
 - [deno.land](https://deno.land)
 
-<!-- - [denopkg.com](https://denopkg.com) -->
+- [denopkg.com](https://denopkg.com)
 
 - [esm.sh](https://esm.sh)
 
