@@ -1,5 +1,6 @@
+import * as semver from 'semver'
 import { assertEquals } from 'std/assert/mod.ts'
-import { checkImport } from '../script/checkImport.ts'
+import { checkImport, CheckResult } from '../script/checkImport.ts'
 
 Deno.test('cdn.jsdelivr.net', async () => {
   const result1 = await checkImport(
@@ -7,14 +8,26 @@ Deno.test('cdn.jsdelivr.net', async () => {
   )
 
   assertEquals(result1 !== null, true)
-  assertEquals(result1?.oldVersion !== result1?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result1 as CheckResult).newVersion,
+      (result1 as CheckResult).oldVersion,
+    ),
+    true,
+  )
 
   const result2 = await checkImport(
     'https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js',
   )
 
   assertEquals(result2 !== null, true)
-  assertEquals(result2?.oldVersion !== result2?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result2 as CheckResult).newVersion,
+      (result2 as CheckResult).oldVersion,
+    ),
+    true,
+  )
 })
 
 Deno.test('den.ooo', async (t) => {
@@ -27,7 +40,13 @@ Deno.test('den.ooo', async (t) => {
     const result2 = await checkImport('https://den.ooo/proxy@v1.3.0/mod.ts')
 
     assertEquals(result2 !== null, true)
-    assertEquals(result2?.oldVersion !== result2?.newVersion, true)
+    assertEquals(
+      semver.gt(
+        (result2 as CheckResult).newVersion,
+        (result2 as CheckResult).oldVersion,
+      ),
+      true,
+    )
   })
 
   await t.step('gh', async () => {
@@ -43,19 +62,37 @@ Deno.test('deno.land', async () => {
   const result1 = await checkImport('https://deno.land/x/jose@v5.0.0/mod.ts')
 
   assertEquals(result1 !== null, true)
-  assertEquals(result1?.oldVersion !== result1?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result1 as CheckResult).newVersion,
+      (result1 as CheckResult).oldVersion,
+    ),
+    true,
+  )
 
   const result2 = await checkImport('https://deno.land/std@0.200.0/')
 
   assertEquals(result2 !== null, true)
-  assertEquals(result2?.oldVersion !== result2?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result2 as CheckResult).newVersion,
+      (result2 as CheckResult).oldVersion,
+    ),
+    true,
+  )
 })
 
 Deno.test('esm.sh', async () => {
   const result = await checkImport('https://esm.sh/jquery@3.6.0')
 
   assertEquals(result !== null, true)
-  assertEquals(result?.oldVersion !== result?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result as CheckResult).newVersion,
+      (result as CheckResult).oldVersion,
+    ),
+    true,
+  )
 })
 
 Deno.test('esm.sh directory with options', async () => {
@@ -64,7 +101,13 @@ Deno.test('esm.sh directory with options', async () => {
   )
 
   assertEquals(result !== null, true)
-  assertEquals(result?.oldVersion !== result?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result as CheckResult).newVersion,
+      (result as CheckResult).oldVersion,
+    ),
+    true,
+  )
 })
 
 Deno.test('npm', async () => {
@@ -76,7 +119,13 @@ Deno.test('npm', async () => {
   const result2 = await checkImport('npm:esbuild@^0.19.0')
 
   assertEquals(result2 !== null, true)
-  assertEquals(result2?.oldVersion !== result2?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result2 as CheckResult).newVersion.replace(/[^0-9a-zA-Z\-.]+/g, ''),
+      (result2 as CheckResult).oldVersion.replace(/[^0-9a-zA-Z\-.]+/g, ''),
+    ),
+    true,
+  )
 })
 
 Deno.test('raw.githubusercontent.com', async () => {
@@ -85,7 +134,13 @@ Deno.test('raw.githubusercontent.com', async () => {
   )
 
   assertEquals(result !== null, true)
-  assertEquals(result?.oldVersion !== result?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result as CheckResult).newVersion,
+      (result as CheckResult).oldVersion,
+    ),
+    true,
+  )
 })
 
 Deno.test('jsr', async () => {
@@ -97,5 +152,32 @@ Deno.test('jsr', async () => {
   const result2 = await checkImport('jsr:@std/encoding@^0.218.0')
 
   assertEquals(result2 !== null, true)
-  assertEquals(result2?.oldVersion !== result2?.newVersion, true)
+  assertEquals(
+    semver.gt(
+      (result2 as CheckResult).newVersion.replace(/[^0-9a-zA-Z\-.]+/g, ''),
+      (result2 as CheckResult).oldVersion.replace(/[^0-9a-zA-Z\-.]+/g, ''),
+    ),
+    true,
+  )
+})
+
+Deno.test('denopkg.com', async () => {
+  const result1 = await checkImport(
+    'https://denopkg.com/boywithkeyboard/updater@v0.16.0/mod.ts',
+  )
+
+  assertEquals(result1 !== null, true)
+  assertEquals(
+    semver.gt(
+      (result1 as CheckResult).newVersion,
+      (result1 as CheckResult).oldVersion,
+    ),
+    true,
+  )
+
+  const result2 = await checkImport(
+    'https://denopkg.com/boywithkeyboard/updater/mod.ts',
+  )
+
+  assertEquals(result2 === null, true)
 })
