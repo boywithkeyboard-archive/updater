@@ -1,3 +1,7 @@
+> [!CAUTION]\
+> The CLI will no longer receive any updates and is **scheduled for removal in
+> v0.30**. Please use the GitHub action as described in the README instead!
+
 ## CLI
 
 The entry point can be either a directory or file. You can also specify multiple
