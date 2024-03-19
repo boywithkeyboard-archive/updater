@@ -1,3 +1,7 @@
+## [v0.18.2](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.2)
+
+- **updater's GitHub action now uses deno.land/x.** This is due to the upcoming major update of den.ooo, which could cause an interruption.
+
 ## [v0.18.1](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.1)
 
 - **Correct updating of side effect imports.** v0.18.0 introduced an issue which basically replaced side effect imports with the URL without preserving the import statement.
