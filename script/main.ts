@@ -1,6 +1,6 @@
-import { parseArgs } from 'std/cli/mod.ts'
-import { gray } from 'std/fmt/colors.ts'
-import { walkSync } from 'std/fs/walk.ts'
+import { parseArgs } from 'https://deno.land/std@0.220.1/cli/mod.ts'
+import { gray } from 'https://deno.land/std@0.220.1/fmt/colors.ts'
+import { walkSync } from 'https://deno.land/std@0.220.1/fs/walk.ts'
 import { update } from '../script/update.ts'
 
 function hasFileWithExt(ext: string) {

@@ -1,4 +1,4 @@
-import * as semver from 'semver'
+import * as semver from 'https://deno.land/std@0.190.0/semver/mod.ts#pin'
 
 export function getNextVersion(args: {
   importSpecifier: string

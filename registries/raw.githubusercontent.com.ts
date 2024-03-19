@@ -1,4 +1,4 @@
-import { Octokit } from 'octokit'
+import { Octokit } from 'https://esm.sh/octokit@3.1.2?target=es2022'
 import { Registry } from '../script/registry.ts'
 
 const gh = new Octokit()
