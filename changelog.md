@@ -1,3 +1,23 @@
+## [v0.18.1](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.1)
+
+- **Correct updating of side effect imports.** v0.18.0 introduced an issue which basically replaced side effect imports with the URL without preserving the import statement.
+
+  ```ts
+  // before
+  import 'https://esm.sh/slash@5.0.0'
+  // after
+  https://esm.sh/slash@5.1.0
+  ```
+
+  v0.18.1 now fixes this behavior and preserves the import statement.
+
+  ```ts
+  // before
+  import 'https://esm.sh/slash@5.0.0'
+  // after
+  import 'https://esm.sh/slash@5.1.0'
+  ```
+
 ## [v0.18.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.0)
 
 - **Regenerate `deno.lock`.** If your project has a `deno.lock` file, updater will now regenerate this file as well.
