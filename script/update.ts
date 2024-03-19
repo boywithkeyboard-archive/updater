@@ -7,6 +7,8 @@ import { checkImport, CheckResult } from './checkImport.ts'
 const REGEX =
   /(?:(?<=(?:import|export)[^`'"]*from\s+[`'"])(?<path1>[^`'"]+)(?=(?:'|"|`)))|(?:\b(?:import|export)(?:\s+|\s*\(\s*)[`'"](?<path2>[^`'"]+)[`'"])/g
 
+const SIDE_EFFECT_IMPORTS_REGEX = /import (('([^']+)')|("([^"]+)"))/g
+
 type UpdateResult = CheckResult & {
   filePath: string
 }
@@ -101,10 +103,11 @@ async function updateFile(path: string, {
         ? JSON.stringify(json, null, 2) + '\n'
         : JSON.stringify(json, null, 2)
     } else {
+      // update usual types of imports
       const identifiers: Record<string, string> = {}
 
       for (const match of content.matchAll(REGEX)) {
-        const identifier = match.groups?.path1 ?? match.groups?.path2
+        const identifier = match[0]
 
         if (!identifier) {
           continue
@@ -127,11 +130,71 @@ async function updateFile(path: string, {
           )
       }
 
-      content = content.replace(REGEX, (...args) => {
-        const identifier = args[args.length - 1].path1 ??
-          args[args.length - 1].path2
+      content = content.replace(REGEX, (_, identifier) => {
+        return identifiers[identifier] ?? _
+      })
 
-        return identifiers[identifier]
+      // update side effect imports
+      const identifiers2: Record<string, string> = {}
+
+      // single quote
+      for (const match of content.matchAll(SIDE_EFFECT_IMPORTS_REGEX)) {
+        const identifier = match[3]
+
+        if (!identifier) {
+          continue
+        }
+
+        const result = await checkImport(identifier, {
+          allowBreaking,
+          allowUnstable,
+        })
+
+        if (!result) {
+          continue
+        }
+
+        results.push(result)
+
+        identifiers2[identifier] = (identifier as string).replace(
+          `@${result.oldVersion}`,
+          `@${result.newVersion}`,
+        )
+      }
+
+      // double quote
+      for (const match of content.matchAll(SIDE_EFFECT_IMPORTS_REGEX)) {
+        const identifier = match[5]
+
+        if (!identifier) {
+          continue
+        }
+
+        const result = await checkImport(identifier, {
+          allowBreaking,
+          allowUnstable,
+        })
+
+        if (!result) {
+          continue
+        }
+
+        results.push(result)
+
+        identifiers2[identifier] = (identifier as string).replace(
+          `@${result.oldVersion}`,
+          `@${result.newVersion}`,
+        )
+      }
+
+      content = content.replace(SIDE_EFFECT_IMPORTS_REGEX, (...args) => {
+        let str = args[0]
+
+        for (const [key, value] of Object.entries(identifiers2)) {
+          str = str.replace(key, value)
+        }
+
+        return str
       })
     }
 
