@@ -1,3 +1,7 @@
+## [v0.18.3](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.3)
+
+- **denopkg.com imports are now updated correctly.** v0.18.0 introduced support for denopkg.com imports, but updates for such imports previously failed.
+
 ## [v0.18.2](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.2)
 
 - **updater's GitHub action now uses deno.land/x.** This is due to the upcoming major update of den.ooo, which could cause an interruption.
