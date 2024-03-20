@@ -92,6 +92,7 @@ export async function cli() {
     'jsr': [],
     'npm': [],
     'raw.githubusercontent.com': [],
+    'denopkg.com': [],
   }
 
   let changelog = ''
