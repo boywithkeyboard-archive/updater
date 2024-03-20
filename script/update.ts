@@ -1,6 +1,11 @@
 // import { jsonc } from 'jsonc'
 import slash from 'https://esm.sh/slash@5.1.0?target=es2022'
-import { gray, green, strikethrough, white } from 'https://deno.land/std@0.220.1/fmt/colors.ts'
+import {
+  gray,
+  green,
+  strikethrough,
+  white,
+} from 'https://deno.land/std@0.220.1/fmt/colors.ts'
 import { walk } from 'https://deno.land/std@0.220.1/fs/walk.ts'
 import { checkImport, CheckResult } from './checkImport.ts'
 

@@ -95,7 +95,7 @@ export async function cli() {
     'denopkg.com': [],
   }
 
-  let changelog = ''
+  let changelog = '#\n\n'
 
   for (const change of changes) {
     sortedChanges[change.registryName].push(change)
@@ -178,6 +178,19 @@ export async function cli() {
       } files.\n\n` +
       changelog
   }
+
+  let importsCount = 0
+  const _files: string[] = []
+
+  for (const change of changes) {
+    _files.push(change.filePath)
+    importsCount++
+  }
+
+  changelog +=
+    `\n\n#\n\n**updater v0.19.0** × This pull request modifies ${importsCount} imports in ${
+      [...new Set(_files)].length
+    } files.`
 
   Deno.writeTextFileSync('./updates_changelog.md', changelog)
 
