@@ -12,7 +12,7 @@
 
   ```ts
   // before
-  import 'https://esm.sh/slash@5.0.0'
+  import 'https://esm.sh/slash@5.1.0'
   // after
   https://esm.sh/slash@5.1.0
   ```
@@ -21,7 +21,7 @@
 
   ```ts
   // before
-  import 'https://esm.sh/slash@5.0.0'
+  import 'https://esm.sh/slash@5.1.0'
   // after
   import 'https://esm.sh/slash@5.1.0'
   ```
