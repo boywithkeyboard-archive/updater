@@ -1,5 +1,5 @@
 import * as semver from 'https://deno.land/std@0.190.0/semver/mod.ts#pin'
-import { assertEquals } from 'https://deno.land/std@0.220.1/assert/mod.ts'
+import { assertEquals } from 'std/assert/mod.ts'
 import { checkImport, CheckResult } from '../script/checkImport.ts'
 
 Deno.test('cdn.jsdelivr.net', async () => {

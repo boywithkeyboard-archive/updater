@@ -1,13 +1,12 @@
-// import { jsonc } from 'jsonc'
-import slash from 'https://esm.sh/slash@5.1.0?target=es2022'
+import slash from 'slash'
 import {
   gray,
   green,
   strikethrough,
   white,
-} from 'https://deno.land/std@0.220.1/fmt/colors.ts'
-import { walk } from 'https://deno.land/std@0.220.1/fs/walk.ts'
-import { checkImport, CheckResult } from './checkImport.ts'
+} from 'std/fmt/colors.ts'
+import { walk } from 'std/fs/walk.ts'
+import { CheckResult, checkImport } from './checkImport.ts'
 
 const REGEX =
   /(?:(?<=(?:import|export)[^`'"]*from\s+[`'"])(?<path1>[^`'"]+)(?=(?:'|"|`)))|(?:\b(?:import|export)(?:\s+|\s*\(\s*)[`'"](?<path2>[^`'"]+)[`'"])/g

@@ -1,4 +1,4 @@
-import { Gitlab } from 'https://esm.sh/@gitbeaker/rest@39.34.3?target=es2022'
+import { Gitlab } from 'gitbeaker'
 import { Registry } from '../../script/registry.ts'
 
 const gl = new Gitlab({

@@ -1,4 +1,4 @@
-import { assertEquals } from 'https://deno.land/std@0.220.1/assert/mod.ts'
+import { assertEquals } from 'std/assert/mod.ts'
 import { getNextVersion } from '../script/getNextVersion.ts'
 
 Deno.test('getNextVersion()', () => {
