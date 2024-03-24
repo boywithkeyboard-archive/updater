@@ -4,7 +4,7 @@ The entry point can be either a directory or file. You can also specify multiple
 files and/or directories.
 
 ```bash
-deno run -Ar https://den.ooo/gh/boywithkeyboard/updater@v0.18.0/mod.ts ./deno.json
+deno run -Ar --import-map=https://deno.land/x/update/deno.json https://deno.land/x/update/mod.ts ./deno.json
 ```
 
 **Options:**
@@ -42,7 +42,7 @@ jobs:
 
       - name: Run update
         run: |
-          deno run -A https://den.ooo/gh/boywithkeyboard/updater@v0.18.0/mod.ts -c
+          deno run -Ar --import-map=https://deno.land/x/update/deno.json https://deno.land/x/update/mod.ts -c
           CHANGELOG=$(cat updates_changelog.md)
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG" >> $GITHUB_ENV
