@@ -5,11 +5,6 @@
     "$schema": {
       "type": "string"
     },
-    "commitMessage": {
-      "description": "The commit message and the title for the pull request.",
-      "default": "deno: update imports",
-      "type": "string"
-    },
     "allowBreaking": {
       "description": "Allow breaking updates (major releases).",
       "default": false,
@@ -17,6 +12,11 @@
     },
     "allowUnstable": {
       "description": "Allow unstable updates (prereleases).",
+      "default": false,
+      "type": "boolean"
+    },
+    "readOnly": {
+      "description": "Perform a dry run.",
       "default": false,
       "type": "boolean"
     }
