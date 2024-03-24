@@ -4,7 +4,7 @@
 
 ![Demo](https://raw.githubusercontent.com/boywithkeyboard/updater/main/.github/showcase.png)
 
-### Usage
+## Usage
 
 The script is available as a
 [GitHub Action](https://docs.github.com/en/actions/learn-github-actions) for
@@ -49,7 +49,42 @@ jobs:
 If you prefer to use this tool in another way, please read our
 [alternative uses](https://github.com/boywithkeyboard/updater/blob/main/docs/alternative_uses.md).
 
-### Stages
+## Configuration File
+
+The file must be named `updater.json` and be located either in the root
+directory of your project or in the `.github` directory.
+
+```json
+{
+  "$schema": "https://updater.mod.land/schema.json"
+}
+```
+
+- `allowBreaking` (boolean)
+
+  Allow breaking updates (major releases).
+
+  _`false` by default_
+
+- `allowUnstable` (boolean)
+
+  Allow unstable updates (prereleases).
+
+  _`false` by default_
+
+<!-- - `commitMessage` (boolean)
+
+  The commit message and the title for the pull request.
+
+  _`false` by default_ -->
+
+- `readOnly` (boolean)
+
+  Perform a dry run.
+
+  _`false` by default_
+
+## Stages
 
 - **⚠️ breaking**
 
@@ -64,7 +99,7 @@ If you prefer to use this tool in another way, please read our
   _"This module doesn't strictly adhere to semver yet, so this version might
   break your code."_
 
-### Advanced Usage
+## Advanced Usage
 
 - **Pin a dependency**
 
@@ -84,7 +119,7 @@ If you prefer to use this tool in another way, please read our
   import cheetah from 'https://deno.land/x/cheetah@v1.5.2/mod.ts#~v1.5'
   ```
 
-### Supported Registries
+## Supported Registries
 
 - [cdn.jsdelivr.net](https://jsdelivr.com)
 
