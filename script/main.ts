@@ -3,6 +3,7 @@ import { gray } from 'std/fmt/colors.ts'
 import { walkSync } from 'std/fs/walk.ts'
 import { update } from '../script/update.ts'
 import { version } from '../version.ts'
+import { parseConfig } from './parseConfig.ts'
 
 function hasFileWithExt(ext: string) {
   for (const entry of walkSync(Deno.cwd())) {
@@ -35,6 +36,8 @@ const labels = {
 }
 
 export async function cli() {
+  const config = parseConfig()
+
   const args = parseArgs(Deno.args)
 
   args._ = args._.filter((i) => typeof i === 'string')
@@ -42,10 +45,10 @@ export async function cli() {
   const files = args._.length > 0 ? args._ as string[] : [Deno.cwd()]
 
   const parsedArgs = {
-    allowBreaking: args.breaking ?? args.b ?? false,
-    allowUnstable: args.unstable ?? args.u ?? false,
+    allowBreaking: args.breaking ?? args.b ?? config.allowBreaking ?? false,
+    allowUnstable: args.unstable ?? args.u ?? config.allowUnstable ?? false,
     logging: true,
-    readOnly: args['dry-run'] ?? args['readonly'] ?? false,
+    readOnly: args['dry-run'] ?? args['readonly'] ?? config.readOnly ?? false,
   }
 
   if (typeof parsedArgs.allowBreaking === 'string') {

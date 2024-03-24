@@ -11,10 +11,13 @@
     "octokit": "https://esm.sh/octokit@3.1.2?target=es2022",
     "slash": "https://esm.sh/slash@5.1.0?target=es2022",
     "std/": "https://deno.land/std@0.220.1/",
-    "typebox": "https://esm.sh/@sinclair/typebox@0.32.18"
+    "typebox": "https://esm.sh/@sinclair/typebox@0.32.18",
+    "typebox/value": "https://esm.sh/@sinclair/typebox@0.32.18/value"
   },
   "lock": false,
   "tasks": {
-    "test": "deno test -A"
+    "test": "deno test -A",
+    "build:schema": "deno run -A schema.ts",
+    "build": "deno task build:schema"
   }
 }
