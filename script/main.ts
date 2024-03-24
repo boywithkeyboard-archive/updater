@@ -2,6 +2,7 @@ import { parseArgs } from 'std/cli/mod.ts'
 import { gray } from 'std/fmt/colors.ts'
 import { walkSync } from 'std/fs/walk.ts'
 import { update } from '../script/update.ts'
+import { version } from '../version.ts'
 
 function hasFileWithExt(ext: string) {
   for (const entry of walkSync(Deno.cwd())) {
@@ -188,7 +189,7 @@ export async function cli() {
   }
 
   changelog +=
-    `\n\n#\n\n**updater v0.19.0** × This pull request modifies ${importsCount} imports in ${
+    `\n\n#\n\n**updater ${version}** × This pull request modifies ${importsCount} imports in ${
       [...new Set(_files)].length
     } files.`
 
