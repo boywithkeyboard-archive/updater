@@ -1,3 +1,18 @@
+## [v0.19.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.19.0)
+
+- **`updater.json` config file.** You can now configure updater with this configuration file.
+
+  ```json
+  {
+    "$schema": "https://updater.mod.land/schema.json",
+    "allowBreaking": true
+  }
+  ```
+
+  The file must be in the root directory of your project or in the `.github` directory.
+
+- **Short footnote in pull request**, with the used version of updater and the number of updated imports.
+
 ## [v0.18.3](https://github.com/boywithkeyboard/updater/releases/tag/v0.18.3)
 
 - **denopkg.com imports are now updated correctly.** v0.18.0 introduced support for denopkg.com imports, but updates for such imports previously failed.
