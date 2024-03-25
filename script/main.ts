@@ -90,7 +90,6 @@ export async function cli() {
     Awaited<ReturnType<typeof update>>['changes']
   > = {
     'cdn.jsdelivr.net': [],
-    'den.ooo': [],
     'deno.land': [],
     'esm.sh': [],
     'jsr': [],
