@@ -1,4 +1,4 @@
-import * as semver from 'https://deno.land/std@0.190.0/semver/mod.ts#pin'
+import * as semver from 'semver'
 import { assertEquals } from 'std/assert/mod.ts'
 import { checkImport, CheckResult } from '../script/checkImport.ts'
 

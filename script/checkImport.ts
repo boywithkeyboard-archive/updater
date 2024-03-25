@@ -1,4 +1,4 @@
-import * as semver from 'https://deno.land/std@0.190.0/semver/mod.ts#pin'
+import * as semver from 'semver'
 import { getNextVersion } from './getNextVersion.ts'
 import { registries } from './registries.ts'
 
