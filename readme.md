@@ -60,6 +60,14 @@ directory of your project or in the `.github` directory.
 }
 ```
 
+- `include` (string or array of strings)
+
+  The files, directories and glob patterns to be included for updates.
+
+- `exclude` (string or array of strings)
+
+  The files, directories and global patterns to exclude from updates.
+
 - `allowBreaking` (boolean)
 
   Allow breaking updates (major releases).
@@ -71,12 +79,6 @@ directory of your project or in the `.github` directory.
   Allow unstable updates (prereleases).
 
   _`false` by default_
-
-<!-- - `commitMessage` (boolean)
-
-  The commit message and the title for the pull request.
-
-  _`false` by default_ -->
 
 - `readOnly` (boolean)
 
