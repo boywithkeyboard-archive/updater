@@ -1,3 +1,11 @@
+## [v0.20.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.20.0)
+
+- **den.ooo is no longer supported.**
+
+- **`include` and `exclude` specific files and directories.** You can specify files, directories and glob patterns to include or exclude.
+
+- **updater accidentally created a schema.json file.** This bug has now been fixed.
+
 ## [v0.19.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.19.0)
 
 - **`updater.json` config file.** You can now configure updater with this configuration file.

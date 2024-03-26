@@ -5,6 +5,34 @@
     "$schema": {
       "type": "string"
     },
+    "include": {
+      "description": "The files, directories and glob patterns to be included for updates.",
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "exclude": {
+      "description": "The files, directories and global patterns to exclude from updates.",
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
     "allowBreaking": {
       "description": "Allow breaking updates (major releases).",
       "default": false,
