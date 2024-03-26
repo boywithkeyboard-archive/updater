@@ -6,13 +6,13 @@ export const schema = Type.Object({
   ),
   // include: Type.Optional(
   //   Type.Array(
-  //     Type.String()
-  //   )
+  //     Type.String(),
+  //   ),
   // ),
   // exclude: Type.Optional(
   //   Type.Array(
-  //     Type.String()
-  //   )
+  //     Type.String(),
+  //   ),
   // ),
   allowBreaking: Type.Optional(
     Type.Boolean({
@@ -26,12 +26,6 @@ export const schema = Type.Object({
       default: false,
     }),
   ),
-  // commitMessage: Type.Optional(
-  //   Type.String({
-  //     description: 'The commit message and the title for the pull request.',
-  //     default: 'deno: update imports',
-  //   }),
-  // ),
   readOnly: Type.Optional(
     Type.Boolean({
       description: 'Perform a dry run.',
@@ -42,4 +36,6 @@ export const schema = Type.Object({
   additionalProperties: false,
 })
 
-Deno.writeTextFile('schema.json', JSON.stringify(schema, null, 2))
+if (import.meta.main) {
+  Deno.writeTextFile('schema.json', JSON.stringify(schema, null, 2))
+}
