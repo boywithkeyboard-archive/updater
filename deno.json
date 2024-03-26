@@ -13,8 +13,8 @@
     "semver": "https://deno.land/std@0.190.0/semver/mod.ts#pin",
     "slash": "https://esm.sh/slash@5.1.0?target=es2022",
     "std/": "https://deno.land/std@0.220.1/",
-    "typebox": "https://esm.sh/@sinclair/typebox@0.32.18",
-    "typebox/value": "https://esm.sh/@sinclair/typebox@0.32.18/value"
+    "typebox": "https://esm.sh/@sinclair/typebox@0.32.20",
+    "typebox/value": "https://esm.sh/@sinclair/typebox@0.32.20/value"
   },
   "lock": false,
   "tasks": {
