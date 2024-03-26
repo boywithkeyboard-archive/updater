@@ -66,7 +66,7 @@ directory of your project or in the `.github` directory.
 
 - `exclude` (string or array of strings)
 
-  The files, directories and global patterns to exclude from updates.
+  The files, directories and global patterns to exclude from updates. The `exclude` option comes **after** `include` and overwrites the specified patterns.
 
 - `allowBreaking` (boolean)
 
