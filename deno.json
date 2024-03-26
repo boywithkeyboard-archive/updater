@@ -3,7 +3,8 @@
     "semiColons": false,
     "singleQuote": true,
     "exclude": [
-      "changelog.md"
+      "changelog.md",
+      "schema.json"
     ]
   },
   "imports": {
