@@ -1,9 +1,18 @@
+import slash from 'slash'
 import { parseArgs } from 'std/cli/mod.ts'
 import { gray } from 'std/fmt/colors.ts'
 import { walkSync } from 'std/fs/walk.ts'
+import {
+  globToRegExp,
+  isAbsolute,
+  isGlob,
+  join,
+  relative,
+} from 'std/path/mod.ts'
 import { update } from '../script/update.ts'
 import { version } from '../version.ts'
 import { parseConfig } from './parseConfig.ts'
+import { stat } from './stat.ts'
 
 function hasFileWithExt(ext: string) {
   for (const entry of walkSync(Deno.cwd())) {
@@ -42,7 +51,7 @@ export async function cli() {
 
   args._ = args._.filter((i) => typeof i === 'string')
 
-  const files = args._.length > 0 ? args._ as string[] : [Deno.cwd()]
+  const paths = args._.length > 0 ? args._ as string[] : [Deno.cwd()]
 
   const parsedArgs = {
     allowBreaking: args.breaking ?? args.b ?? config.allowBreaking ?? false,
@@ -57,6 +66,107 @@ export async function cli() {
 
   if (typeof parsedArgs.allowUnstable === 'string') {
     parsedArgs.allowUnstable = parsedArgs.allowUnstable === 'true'
+  }
+
+  let files: string[] = []
+
+  // resolve input files/dirs
+  for (let path of paths) {
+    if (!isAbsolute(path)) {
+      path = join(Deno.cwd(), path)
+    }
+
+    const s = stat(path)
+
+    if (!s) {
+      continue
+    }
+
+    if (s.isDirectory) {
+      for (
+        const entry of walkSync(path, {
+          skip: [/\.git/, /\.vscode/],
+          followSymlinks: false,
+          exts: ['.jsx', '.tsx', '.js', '.ts', '.mjs', '.md', '.mdx', '.json'],
+        })
+      ) {
+        if (entry.isFile) {
+          files.push(relative(Deno.cwd(), entry.path))
+        }
+      }
+    } else if (s.isFile) {
+      files.push(path)
+    }
+  }
+
+  files = files.map((path) => {
+    if (!path.startsWith('../')) {
+      path = './' + path
+    }
+
+    return slash(path)
+  })
+
+  // parse include/exclude
+
+  if (config.include) {
+    if (typeof config.include === 'string') {
+      if (isGlob(config.include)) {
+        const regex = globToRegExp(config.include, { extended: true })
+
+        files = files.filter((path) => regex.test(path))
+      } else {
+        if (isAbsolute(config.include)) {
+          config.include = relative(Deno.cwd(), config.include)
+        }
+
+        files = files.filter((path) => path === config.include)
+      }
+    } else {
+      for (let pattern of config.include) {
+        if (isGlob(pattern)) {
+          const regex = globToRegExp(pattern, { extended: true })
+
+          files = files.filter((path) => regex.test(path))
+        } else {
+          if (isAbsolute(pattern)) {
+            pattern = relative(Deno.cwd(), pattern)
+          }
+
+          files = files.filter((path) => path === pattern)
+        }
+      }
+    }
+  }
+
+  if (config.exclude) {
+    if (typeof config.exclude === 'string') {
+      if (isGlob(config.exclude)) {
+        const regex = globToRegExp(config.exclude, { extended: true })
+
+        files = files.filter((path) => !regex.test(path))
+      } else {
+        if (isAbsolute(config.exclude)) {
+          config.exclude = relative(Deno.cwd(), config.exclude)
+        }
+
+        files = files.filter((path) => path !== config.exclude)
+      }
+    } else {
+      for (let pattern of config.exclude) {
+        if (isGlob(pattern)) {
+          const regex = globToRegExp(pattern, { extended: true })
+
+          files = files.filter((path) => !regex.test(path))
+        } else {
+          if (isAbsolute(pattern)) {
+            pattern = relative(Deno.cwd(), pattern)
+          }
+
+          files = files.filter((path) => path !== pattern)
+        }
+      }
+    }
   }
 
   const { filesChecked, changes } = await update(files, parsedArgs)

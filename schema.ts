@@ -4,16 +4,28 @@ export const schema = Type.Object({
   $schema: Type.Optional(
     Type.String(),
   ),
-  // include: Type.Optional(
-  //   Type.Array(
-  //     Type.String(),
-  //   ),
-  // ),
-  // exclude: Type.Optional(
-  //   Type.Array(
-  //     Type.String(),
-  //   ),
-  // ),
+  include: Type.Optional(
+    Type.Union([
+      Type.Array(
+        Type.String(),
+      ),
+      Type.String(),
+    ], {
+      description:
+        'The files, directories and glob patterns to be included for updates.',
+    }),
+  ),
+  exclude: Type.Optional(
+    Type.Union([
+      Type.Array(
+        Type.String(),
+      ),
+      Type.String(),
+    ], {
+      description:
+        'The files, directories and global patterns to exclude from updates.',
+    }),
+  ),
   allowBreaking: Type.Optional(
     Type.Boolean({
       description: 'Allow breaking updates (major releases).',
