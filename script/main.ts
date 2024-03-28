@@ -41,9 +41,13 @@ function typeCheck(taskName: string) {
 
   const output = cmd.outputSync()
 
+  const stderr = new TextDecoder().decode(output.stderr)
+
+  console.log(stderr)
+
   return {
     success: output.success,
-    stderr: new TextDecoder().decode(output.stderr),
+    stderr,
   }
 }
 
@@ -264,7 +268,6 @@ export async function cli() {
   )
 
   let typeCheckingSucceeded = true
-  const typeCheckErrors: Record<string, string> = {}
   const failedOn: string[] = []
 
   if (typeCheckingSucceeded && hasFileWithExt('.ts')) {
@@ -274,7 +277,6 @@ export async function cli() {
 
     if (!typeCheckingSucceeded) {
       failedOn.push('.ts')
-      typeCheckErrors['.ts'] = result.stderr
     }
   }
 
@@ -285,7 +287,6 @@ export async function cli() {
 
     if (!typeCheckingSucceeded) {
       failedOn.push('.js')
-      typeCheckErrors['.js'] = result.stderr
     }
   }
 
@@ -296,30 +297,18 @@ export async function cli() {
 
     if (!typeCheckingSucceeded) {
       failedOn.push('.mjs')
-      typeCheckErrors['.mjs'] = result.stderr
     }
   }
-
-  let typeCheckMarkdown
 
   if (!typeCheckingSucceeded) {
-    typeCheckMarkdown = `> [!CAUTION]\\\n> \`deno check\` failed on some ${
-      failedOn.map((item) => `\`${item}\``).join(', ').replace(
-        /,(?=[^,]+$)/,
-        ', and',
-      )
-    } files.\n`
-
-    typeCheckMarkdown += '<details>\n<summary>View error log</summary>\n'
-
-    for (const [key, value] of Object.entries(typeCheckErrors)) {
-      typeCheckMarkdown += `\`${key}\`\n\`\`\`\n${value}\n\`\`\`\n\n`
-    }
-
-    typeCheckMarkdown += '</details>\n\n'
+    changelog =
+      `> [!CAUTION]\\\n> \`deno check\` failed on some ${
+        failedOn.map((item) => `\`${item}\``).join(', ').replace(
+          /,(?=[^,]+$)/,
+          ', and',
+        )
+      } files.\n` + changelog
   }
-
-  changelog = typeCheckMarkdown + changelog
 
   let importsCount = 0
   const _files: string[] = []
