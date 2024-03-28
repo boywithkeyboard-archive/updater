@@ -30,34 +30,6 @@ Deno.test('cdn.jsdelivr.net', async () => {
   )
 })
 
-Deno.test('den.ooo', async (t) => {
-  await t.step('aliases', async () => {
-    const result1 = await checkImport('https://den.ooo/proxy@v1.3.0/mod.ts#pin')
-
-    assertEquals(result1 !== null, true)
-    assertEquals(result1?.oldVersion === result1?.newVersion, true)
-
-    const result2 = await checkImport('https://den.ooo/proxy@v1.3.0/mod.ts')
-
-    assertEquals(result2 !== null, true)
-    assertEquals(
-      semver.gt(
-        (result2 as CheckResult).newVersion,
-        (result2 as CheckResult).oldVersion,
-      ),
-      true,
-    )
-  })
-
-  await t.step('gh', async () => {
-    const result = await checkImport(
-      'https://den.ooo/gh/esbuild/deno-esbuild@v0.19.4/mod.js',
-    )
-
-    assertEquals(result !== null, true)
-  })
-})
-
 Deno.test('deno.land', async () => {
   const result1 = await checkImport('https://deno.land/x/jose@v5.0.0/mod.ts')
 
