@@ -127,8 +127,6 @@ directory of your project or in the `.github` directory.
 
 - [cdn.jsdelivr.net](https://jsdelivr.com)
 
-- [den.ooo](https://den.ooo)
-
 - [deno.land](https://deno.land)
 
 - [denopkg.com](https://denopkg.com)
