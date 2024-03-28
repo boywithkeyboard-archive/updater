@@ -1,3 +1,7 @@
+## [v0.21.1](https://github.com/boywithkeyboard/updater/releases/tag/v0.21.1)
+
+- The error log for type checking is now logged directly on the console. This fixes the problem of exceeding the maximum character length of a pull request description.
+
 ## [v0.21.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.21.0)
 
 - The pull request now contains the error log in the event that the type check has failed.
