@@ -1,3 +1,7 @@
+## [v0.21.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.21.0)
+
+- The pull request now contains the error log in the event that the type check has failed.
+
 ## [v0.20.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.20.0)
 
 - **den.ooo is no longer supported.**
