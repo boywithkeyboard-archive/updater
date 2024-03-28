@@ -35,7 +35,16 @@ function execTask(taskName: string) {
 }
 
 function typeCheck(taskName: string) {
-  return execTask(taskName)
+  const cmd = new Deno.Command('deno', {
+    args: ['task', '--config', './__updater_deno.json', taskName],
+  })
+
+  const output = cmd.outputSync()
+
+  return {
+    success: output.success,
+    stderr: new TextDecoder().decode(output.stderr),
+  }
 }
 
 const labels = {
@@ -255,42 +264,62 @@ export async function cli() {
   )
 
   let typeCheckingSucceeded = true
+  const typeCheckErrors: Record<string, string> = {}
   const failedOn: string[] = []
 
   if (typeCheckingSucceeded && hasFileWithExt('.ts')) {
-    typeCheckingSucceeded = typeCheck('check_ts')
+    const result = typeCheck('check_ts')
+
+    typeCheckingSucceeded = result.success
 
     if (!typeCheckingSucceeded) {
       failedOn.push('.ts')
+      typeCheckErrors['.ts'] = result.stderr
     }
   }
 
   if (typeCheckingSucceeded && hasFileWithExt('.js')) {
-    typeCheckingSucceeded = typeCheck('check_js')
+    const result = typeCheck('check_js')
+
+    typeCheckingSucceeded = result.success
 
     if (!typeCheckingSucceeded) {
       failedOn.push('.js')
+      typeCheckErrors['.js'] = result.stderr
     }
   }
 
   if (typeCheckingSucceeded && hasFileWithExt('.mjs')) {
-    typeCheckingSucceeded = typeCheck('check_mjs')
+    const result = typeCheck('check_mjs')
+
+    typeCheckingSucceeded = result.success
 
     if (!typeCheckingSucceeded) {
       failedOn.push('.mjs')
+      typeCheckErrors['.mjs'] = result.stderr
     }
   }
 
+  let typeCheckMarkdown
+
   if (!typeCheckingSucceeded) {
-    changelog =
-      `> [!CAUTION]\\\n> \`deno check\` failed on some ${
-        failedOn.map((item) => `\`${item}\``).join(', ').replace(
-          /,(?=[^,]+$)/,
-          ', and',
-        )
-      } files.\n\n` +
-      changelog
+    typeCheckMarkdown = `> [!CAUTION]\\\n> \`deno check\` failed on some ${
+      failedOn.map((item) => `\`${item}\``).join(', ').replace(
+        /,(?=[^,]+$)/,
+        ', and',
+      )
+    } files.\n`
+
+    typeCheckMarkdown += '<details>\n<summary>View error log</summary>\n'
+
+    for (const [key, value] of Object.entries(typeCheckErrors)) {
+      typeCheckMarkdown += `\`${key}\`\n\`\`\`\n${value}\n\`\`\`\n\n`
+    }
+
+    typeCheckMarkdown += '</details>\n\n'
   }
+
+  changelog = typeCheckMarkdown + changelog
 
   let importsCount = 0
   const _files: string[] = []
