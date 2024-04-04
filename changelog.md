@@ -1,3 +1,7 @@
+## [v0.22.0](https://github.com/boywithkeyboard/updater/releases/tag/v0.22.0)
+
+- **Support for deno.re.** updater can now update `https://deno.re/...` imports.
+
 ## [v0.21.1](https://github.com/boywithkeyboard/updater/releases/tag/v0.21.1)
 
 - The error log for type checking is now logged directly on the console. This fixes the problem of exceeding the maximum character length of a pull request description.
