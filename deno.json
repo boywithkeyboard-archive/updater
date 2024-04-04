@@ -9,7 +9,7 @@
   },
   "imports": {
     "gitbeaker": "https://esm.sh/@gitbeaker/rest@39.34.3?target=es2022",
-    "octokit": "https://esm.sh/octokit@3.1.2?target=es2022",
+    "octokit": "https://esm.sh/octokit@3.2.0?target=es2022",
     "semver": "https://deno.land/std@0.190.0/semver/mod.ts#pin",
     "slash": "https://esm.sh/slash@5.1.0?target=es2022",
     "std/": "https://deno.land/std@0.221.0/",
