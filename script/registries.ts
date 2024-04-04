@@ -1,5 +1,6 @@
 import { cdn_jsdelivr_net } from '../registries/cdn.jsdelivr.net.ts'
 import { deno_land } from '../registries/deno.land.ts'
+import { deno_re } from '../registries/deno.re.ts'
 import { denopkg_com } from '../registries/denopkg.com.ts'
 import { esm_sh } from '../registries/esm.sh.ts'
 import { jsr } from '../registries/jsr.ts'
@@ -14,4 +15,5 @@ export const registries = [
   raw_githubusercontent_com,
   jsr,
   denopkg_com,
+  deno_re,
 ]

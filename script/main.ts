@@ -214,11 +214,12 @@ export async function cli() {
   > = {
     'cdn.jsdelivr.net': [],
     'deno.land': [],
+    'deno.re': [],
+    'denopkg.com': [],
     'esm.sh': [],
     'jsr': [],
     'npm': [],
     'raw.githubusercontent.com': [],
-    'denopkg.com': [],
   }
 
   let changelog = '#\n\n'
