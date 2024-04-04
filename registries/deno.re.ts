@@ -22,7 +22,7 @@ export const deno_re = new Registry({
 
     const arr = pathname.split('/')
 
-    if (arr[1] === 'std') {
+    if (arr[1].split('@')[0] === 'std') {
       return {
         moduleName: 'denoland/deno_std',
         version: arr[1].split('@')[1],
