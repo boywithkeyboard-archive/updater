@@ -77,21 +77,24 @@ async function updateFile(path: string, {
       }
 
       for (const key in json.imports) {
-        const result = await checkImport(json.imports[key], {
-          allowBreaking,
-          allowUnstable,
-        })
+        try {
+          const result = await checkImport(json.imports[key], {
+            allowBreaking,
+            allowUnstable,
+          })
 
-        if (result) {
-          results.push(result)
-        }
+          if (result) {
+            results.push(result)
+          }
 
-        json.imports[key] = result === null
-          ? json.imports[key]
-          : json.imports[key].replace(
-            `@${result.oldVersion}`,
-            `@${result.newVersion}`,
-          )
+          json.imports[key] = result === null
+            ? json.imports[key]
+            : json.imports[key].replace(
+              `@${result.oldVersion}`,
+              `@${result.newVersion}`,
+            )
+          // deno-lint-ignore no-empty
+        } catch (_) {}
       }
 
       content = content.endsWith('\n')
@@ -101,21 +104,24 @@ async function updateFile(path: string, {
       const identifiers: Record<string, string> = {}
 
       for (const { identifier } of walkImports(content)) {
-        const result = await checkImport(identifier, {
-          allowBreaking,
-          allowUnstable,
-        })
+        try {
+          const result = await checkImport(identifier, {
+            allowBreaking,
+            allowUnstable,
+          })
 
-        if (!result) {
-          continue
-        }
+          if (!result) {
+            continue
+          }
 
-        results.push(result)
+          results.push(result)
 
-        identifiers[identifier] = identifier.replace(
-          `@${result.oldVersion}`,
-          `@${result.newVersion}`,
-        )
+          identifiers[identifier] = identifier.replace(
+            `@${result.oldVersion}`,
+            `@${result.newVersion}`,
+          )
+          // deno-lint-ignore no-empty
+        } catch (_) {}
       }
 
       content = rewriteIdentifiers(content, (identifier) => {
