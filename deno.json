@@ -9,7 +9,7 @@
   },
   "imports": {
     "gitbeaker": "https://esm.sh/@gitbeaker/rest@39.34.3?target=es2022",
-    "js-imports": "https://deno.re/boywithkeyboard/js-imports@v0.1.0",
+    "js-imports": "https://deno.re/boywithkeyboard/js-imports@v0.2.0",
     "octokit": "https://esm.sh/octokit@3.2.0?target=es2022",
     "semver": "https://deno.land/std@0.190.0/semver/mod.ts#pin",
     "slash": "https://esm.sh/slash@5.1.0?target=es2022",
