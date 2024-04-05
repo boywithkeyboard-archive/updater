@@ -23,11 +23,6 @@ const cache = new Map<{
   allowUnstable: boolean
 }, CheckResult | null>()
 
-// const cache = new LRUCache({
-//   max: 500,
-//   ttl: 30,
-// })
-
 /**
  * Specify a file or directory path to check every import in it for any available updates.
  *
@@ -89,7 +84,8 @@ export async function checkImport(
 
     if (
       importSpecifier.endsWith('#pin') ||
-      registry.config.importType === 'string' && !version.startsWith('^')
+      registry.config.importType === 'string' && !version.startsWith('^') ||
+      !semver.valid(version.replace('^', ''))
     ) {
       result = {
         import: importSpecifier,
