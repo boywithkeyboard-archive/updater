@@ -2,11 +2,7 @@ import slash from 'slash'
 import { gray, green, strikethrough, white } from 'std/fmt/colors.ts'
 import { walk } from 'std/fs/walk.ts'
 import { checkImport, CheckResult } from './checkImport.ts'
-
-const REGEX =
-  /(?:(?<=(?:import|export)[^`'"]*from\s+[`'"])(?<path1>[^`'"]+)(?=(?:'|"|`)))|(?:\b(?:import|export)(?:\s+|\s*\(\s*)[`'"](?<path2>[^`'"]+)[`'"])/g
-
-const SIDE_EFFECT_IMPORTS_REGEX = /import (('([^']+)')|("([^"]+)"))/g
+import { rewriteIdentifiers, walkImports } from 'js-imports'
 
 type UpdateResult = CheckResult & {
   filePath: string
@@ -102,48 +98,9 @@ async function updateFile(path: string, {
         ? JSON.stringify(json, null, 2) + '\n'
         : JSON.stringify(json, null, 2)
     } else {
-      // update usual types of imports
       const identifiers: Record<string, string> = {}
 
-      for (const match of content.matchAll(REGEX)) {
-        const identifier = match[0]
-
-        if (!identifier) {
-          continue
-        }
-
-        const result = await checkImport(identifier, {
-          allowBreaking,
-          allowUnstable,
-        })
-
-        if (result) {
-          results.push(result)
-        }
-
-        identifiers[identifier] = result === null
-          ? identifier as string
-          : (identifier as string).replace(
-            `@${result.oldVersion}`,
-            `@${result.newVersion}`,
-          )
-      }
-
-      content = content.replace(REGEX, (_, identifier) => {
-        return identifiers[identifier] ?? _
-      })
-
-      // update side effect imports
-      const identifiers2: Record<string, string> = {}
-
-      // single quote
-      for (const match of content.matchAll(SIDE_EFFECT_IMPORTS_REGEX)) {
-        const identifier = match[3]
-
-        if (!identifier) {
-          continue
-        }
-
+      for (const { identifier } of walkImports(content)) {
         const result = await checkImport(identifier, {
           allowBreaking,
           allowUnstable,
@@ -155,45 +112,14 @@ async function updateFile(path: string, {
 
         results.push(result)
 
-        identifiers2[identifier] = (identifier as string).replace(
+        identifiers[identifier] = identifier.replace(
           `@${result.oldVersion}`,
           `@${result.newVersion}`,
         )
       }
 
-      // double quote
-      for (const match of content.matchAll(SIDE_EFFECT_IMPORTS_REGEX)) {
-        const identifier = match[5]
-
-        if (!identifier) {
-          continue
-        }
-
-        const result = await checkImport(identifier, {
-          allowBreaking,
-          allowUnstable,
-        })
-
-        if (!result) {
-          continue
-        }
-
-        results.push(result)
-
-        identifiers2[identifier] = (identifier as string).replace(
-          `@${result.oldVersion}`,
-          `@${result.newVersion}`,
-        )
-      }
-
-      content = content.replace(SIDE_EFFECT_IMPORTS_REGEX, (...args) => {
-        let str = args[0]
-
-        for (const [key, value] of Object.entries(identifiers2)) {
-          str = str.replace(key, value)
-        }
-
-        return str
+      content = rewriteIdentifiers(content, (identifier) => {
+        return identifiers[identifier] ?? identifier
       })
     }
 
