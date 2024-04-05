@@ -62,7 +62,7 @@ export async function cli() {
 
   const args = parseArgs(Deno.args)
 
-  args._ = args._.filter((i) => typeof i === 'string')
+  args._ = args._.filter((i: unknown) => typeof i === 'string')
 
   const paths = args._.length > 0 ? args._ as string[] : [Deno.cwd()]
 
